@@ -35,4 +35,5 @@
 /config/master.key
 
 .idea/*
+onboarding-app-blog/.idea/*
 .keep
