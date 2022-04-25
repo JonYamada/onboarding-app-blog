@@ -42,6 +42,10 @@ gem 'bootsnap', require: false
 
 gem 'react_on_rails', '= 13.0'
 
+gem 'webpacker'
+gem 'msgpack'
+gem 'nokogiri', '~>1.13.4'
+
 # Use Sass to process CSS
 # gem 'sassc-rails'
 
