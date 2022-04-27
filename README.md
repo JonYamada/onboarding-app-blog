@@ -134,7 +134,7 @@ devDependencies:
 
 ## Troubleshooting
 
-If you're using a MacBook with the M1 chip, you may run into some architecture errors. Try \
+If you're using a MacBook with the M1 chip, you may run into some architecture errors. Try:
 
 * `arch -x86_64 /bin/zsh` or `arch -arm64 /bin/zsh`.\
 * You can also trying prefixing your `brew commands` with `arch -x86_64 brew ...`
