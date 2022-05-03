@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import style from './HelloWorld.module.css';
 
-const HelloWorld = ({name}) => {
+const HelloWorld = ({name}: { name: string }) => {
   const [firstName, setFirstName] = useState(name);
 
   return (
@@ -20,7 +20,7 @@ const HelloWorld = ({name}) => {
 };
 
 HelloWorld.propTypes = {
-  name: PropTypes.string.isRequired, // this is passed from the Rails view
+  name: PropTypes.string.isRequired
 };
 
 export default HelloWorld;
