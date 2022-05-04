@@ -1,12 +1,11 @@
 class User < ApplicationRecord
   validates :first_name, :email, presence: true
-  validates_uniqueness_of :email
+  validates :email, uniqueness: true
+  validate :correct_email_format
 
-  EMAIL_REGEX = /^(.+)@(.+)$/
+  private
 
-  def valid_email?(email)
-    email =~ EMAIL_REGEX
+  def correct_email_format
+    errors.add(:email, 'Ensure you enter a valid email') if (email =~ /^(.+)@(.+)$/).nil?
   end
-
-  # p valid_email?('john.doe@domain.com' ? 'Valid Email' ∶ 'Invalid Email')
 end
