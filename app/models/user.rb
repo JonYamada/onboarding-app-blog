@@ -6,6 +6,6 @@ class User < ApplicationRecord
   private
 
   def correct_email_format
-    errors.add(:email, 'Ensure you enter a valid email') if (email =~ /^(.+)@(.+)$/).nil?
+    errors.add(:email, :invalid_format) if (email =~ /^(.+)@(.+)$/).nil?
   end
 end
