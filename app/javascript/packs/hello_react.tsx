@@ -4,7 +4,6 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {string} from 'prop-types'
 
 interface helloWorldProps {
   name: string;
@@ -14,16 +13,11 @@ const defaultProps = {
   name: 'David'
 }
 
-const propTypes = {
-  name: string
-}
-
 const Hello = (props: helloWorldProps) => (
-  <div>Hello {props?.name}!</div>
+  <div>Hello {props?.name}! hello_react.tsx</div>
 )
 
 Hello.defaultProps = defaultProps
-Hello.propTypes = propTypes
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(

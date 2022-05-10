@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import style from './HelloWorld.module.css';
 
@@ -8,6 +7,7 @@ const HelloWorld = ({name}: { name: string }) => {
   return (
     <div>
       <h3>Hello, {firstName}!</h3>
+      HelloWorld.tsx
       <hr/>
       <form>
         <label className={style.bright} htmlFor='name'>
@@ -17,10 +17,6 @@ const HelloWorld = ({name}: { name: string }) => {
       </form>
     </div>
   );
-};
-
-HelloWorld.propTypes = {
-  name: PropTypes.string.isRequired
 };
 
 export default HelloWorld;
