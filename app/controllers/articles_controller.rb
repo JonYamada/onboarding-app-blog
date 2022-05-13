@@ -6,11 +6,21 @@ class ArticlesController < ApplicationController
     @articles = { articles: Article.all }
   end
 
-  def new; end
+  def create
+    @article = Article.new(article_params)
+    if @article.save
+      # TODO: redirect to show when action available
+      redirect_to articles_path
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
 
-  def create; end
+  private
 
-  def slug
+  def slug; end
 
+  def article_params
+    params.require(:article).permit(:title, :content, :user_id)
   end
 end
