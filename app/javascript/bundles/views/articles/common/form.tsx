@@ -5,7 +5,7 @@ import {Box, Button} from '@mui/material'
 import {createArticle} from '../../../api/articles/articles'
 import {toast} from 'react-hot-toast'
 import ToastWrapper from '../../../components/toaster/ToastWrapper'
-import {toast as toastTranslations, validations} from '../../../config/translations/en.json'
+import {buttonText, toast as toastTranslations, validations} from '../../../config/translations/en.json'
 
 const defaultProps = {
   className: null
@@ -49,7 +49,7 @@ const ArticleForm = ({className}: IArticleForm) => {
               <ErrorMessage name='content' component='div'/>
             </Box>
             <Button variant='contained' type='submit' disabled={isSubmitting}>
-              Submit
+              {buttonText.submit}
             </Button>
           </Form>
         )}

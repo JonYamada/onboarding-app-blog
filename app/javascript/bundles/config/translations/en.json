@@ -1,4 +1,8 @@
 {
+  "buttonText": {
+    "newArticle": "New Article",
+    "submit": "Submit"
+  },
   "toast": {
     "errorGeneric": "Oops, something went wrong",
     "successSaved": "Saved Successfully"

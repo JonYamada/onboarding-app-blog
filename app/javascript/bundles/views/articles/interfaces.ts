@@ -3,16 +3,16 @@ interface IArticleForm {
   className?: string
 }
 
-interface IListItemPreview {
-  content: string
-  profileImg?: string
-  title: string
-}
-
 interface IArticles {
   articles: Array<IListItemPreview>
   className?: string
   newArticlePath: string
+}
+
+interface IListItemPreview {
+  content: string
+  profileImg?: string
+  title: string
 }
 
 interface IParams {

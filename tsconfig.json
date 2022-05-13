@@ -17,6 +17,7 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "strictNullChecks": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "**/*.spec.ts",
