@@ -2,8 +2,9 @@ import React from 'react'
 import {Formik, Form, Field, ErrorMessage, FormikHelpers} from 'formik'
 import {IArticleForm, IParams} from '../interfaces'
 import {Box, Button} from '@mui/material'
-import axios from 'axios'
 import {createArticle} from '../../../api/articles/articles'
+import {toast} from 'react-hot-toast'
+import ToastWrapper from '../../../components/toaster/ToastWrapper'
 
 const defaultProps = {
   className: null
@@ -11,7 +12,7 @@ const defaultProps = {
 
 const ArticleForm = ({className}: IArticleForm) => {
   return (
-    <div className={className}>
+    <ToastWrapper className={className}>
       <Formik
         initialValues={{title: '', content: ''}}
         validate={values => {
@@ -28,7 +29,11 @@ const ArticleForm = ({className}: IArticleForm) => {
           // TODO add to current user when available
           values.user_id = 1
           createArticle(values)
-            .then(resetForm)
+            .then(() => {
+              resetForm()
+              // TODO: add localisation
+              toast.success('Saved Successfully')
+            })
             .catch(console.error)
           setSubmitting(false)
         }}
@@ -49,7 +54,7 @@ const ArticleForm = ({className}: IArticleForm) => {
           </Form>
         )}
       </Formik>
-    </div>
+    </ToastWrapper>
   )
 }
 
