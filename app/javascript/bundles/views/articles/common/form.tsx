@@ -5,6 +5,7 @@ import {Box, Button} from '@mui/material'
 import {createArticle} from '../../../api/articles/articles'
 import {toast} from 'react-hot-toast'
 import ToastWrapper from '../../../components/toaster/ToastWrapper'
+import {toast as toastTranslations, validations} from '../../../config/translations/en.json'
 
 const defaultProps = {
   className: null
@@ -17,8 +18,8 @@ const ArticleForm = ({className}: IArticleForm) => {
         initialValues={{title: '', content: ''}}
         validate={values => {
           const errors: Record<string, string> = {title: '', content: ''}
-          if (!values.title) errors.title = 'Title Required'
-          if (!values.content) errors.content = 'Content Required'
+          if (!values.title) errors.title = validations.requiredTitle
+          if (!values.content) errors.content = validations.requiredContent
 
           Object.keys(errors).forEach(key => {
             if (!errors[key]) delete errors[key]
@@ -31,10 +32,9 @@ const ArticleForm = ({className}: IArticleForm) => {
           createArticle(values)
             .then(() => {
               resetForm()
-              // TODO: add localisation
-              toast.success('Saved Successfully')
+              toast.success(toastTranslations.successSaved)
             })
-            .catch(console.error)
+            .catch(() => toast.error(toastTranslations.errorGeneric))
           setSubmitting(false)
         }}
       >

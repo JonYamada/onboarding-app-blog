@@ -1,0 +1,10 @@
+{
+  "toast": {
+    "errorGeneric": "Oops, something went wrong",
+    "successSaved": "Saved Successfully"
+  },
+  "validations": {
+    "requiredContent": "Content Required",
+    "requiredTitle": "Title Required"
+  }
+}
