@@ -1,19 +1,22 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Formik, Form, Field, ErrorMessage, FormikHelpers} from 'formik'
 import {IArticleForm, IParams} from '../interfaces'
-import {Box, Button} from '@mui/material'
+import {Box, Button, CircularProgress} from '@mui/material'
 import {createArticle} from '../../../api/articles/articles'
 import {toast} from 'react-hot-toast'
 import {buttonText, toast as toastTranslations, validations} from '../../../config/translations/en.json'
 import {redirectTo} from '../../../utils/nav'
+import {TOAST} from '../../../utils/toast'
 
 const defaultProps = {
   className: null
 }
 
 const ArticleForm = ({className}: IArticleForm) => {
+  const [loading, setLoading] = useState(false)
+
   return (
-    <ToastWrapper className={className}>
+    <div className={className}>
       <Formik
         initialValues={{title: '', content: ''}}
         validate={values => {
@@ -26,19 +29,25 @@ const ArticleForm = ({className}: IArticleForm) => {
           })
           return errors
         }}
-        onSubmit={(values: IParams, {setSubmitting, resetForm}: FormikHelpers<IParams>) => {
+        onSubmit={(values: IParams, {resetForm}: FormikHelpers<IParams>) => {
           // TODO add to current user when available
+          setLoading(true)
           values.user_id = 1
           createArticle(values)
-            .then(() => {
+            .then(({request}) => {
               resetForm()
-              toast.success(toastTranslations.successSaved)
+              redirectTo(request?.responseURL, {
+                toast: {
+                  message: toastTranslations.successSaved,
+                  type: TOAST.SUCCESS,
+                }
+              })
             })
             .catch(() => toast.error(toastTranslations.errorGeneric))
-          setSubmitting(false)
+            .finally(() => setLoading(false))
         }}
       >
-        {({isSubmitting}) => (
+        {() => (
           <Form>
             <Box sx={{marginBottom: 1}}>
               <Field type='text' name='title'/>
@@ -48,13 +57,16 @@ const ArticleForm = ({className}: IArticleForm) => {
               <Field as='textarea' name='content' rows={20}/>
               <ErrorMessage name='content' component='div'/>
             </Box>
-            <Button variant='contained' type='submit' disabled={isSubmitting}>
-              {buttonText.submit}
-            </Button>
+            {
+              loading ? <CircularProgress/> :
+                <Button variant='contained' type='submit' disabled={loading}>
+                  {buttonText.submit}
+                </Button>
+            }
           </Form>
         )}
       </Formik>
-    </ToastWrapper>
+    </div>
   )
 }
 
