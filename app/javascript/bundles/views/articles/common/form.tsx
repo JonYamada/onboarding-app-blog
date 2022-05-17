@@ -4,8 +4,8 @@ import {IArticleForm, IParams} from '../interfaces'
 import {Box, Button} from '@mui/material'
 import {createArticle} from '../../../api/articles/articles'
 import {toast} from 'react-hot-toast'
-import ToastWrapper from '../../../components/toaster/ToastWrapper'
 import {buttonText, toast as toastTranslations, validations} from '../../../config/translations/en.json'
+import {redirectTo} from '../../../utils/nav'
 
 const defaultProps = {
   className: null
