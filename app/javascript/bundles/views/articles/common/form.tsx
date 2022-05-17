@@ -6,7 +6,6 @@ import {createArticle} from '../../../api/articles/articles'
 import {toast} from 'react-hot-toast'
 import {buttonText, toast as toastTranslations, validations} from '../../../config/translations/en.json'
 import {redirectTo} from '../../../utils/nav'
-import {TOAST} from '../../../utils/toast'
 
 const defaultProps = {
   className: null
@@ -39,7 +38,7 @@ const ArticleForm = ({className}: IArticleForm) => {
               redirectTo(request?.responseURL, {
                 toast: {
                   message: toastTranslations.successSaved,
-                  type: TOAST.SUCCESS,
+                  type: 'success',
                 }
               })
             })
