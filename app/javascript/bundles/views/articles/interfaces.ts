@@ -1,7 +1,7 @@
 interface IArticleForm extends Partial<IWithLoaderProps> {
   article?: IParams
   className?: string
-  onSubmit(values: IParams): any
+  onSubmit?(values: IParams): any
 }
 
 interface IArticles {

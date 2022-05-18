@@ -17,7 +17,9 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
     <div className={className}>
       <Formik
         initialValues={initialValues}
-        onSubmit={(values: IParams) => onSave(values)}
+        onSubmit={(values: IParams) => {
+          if (onSave) onSave(values)
+        }}
         validate={values => {
           const errors: Record<string, string> = {title: '', content: ''}
           if (!values.content) errors.content = validations.requiredContent
