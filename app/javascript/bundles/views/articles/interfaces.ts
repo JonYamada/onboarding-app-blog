@@ -1,6 +1,7 @@
-interface IArticleForm {
-  article: IParams
+interface IArticleForm extends Partial<IWithLoaderProps> {
+  article?: IParams
   className?: string
+  onSubmit(values: IParams): any
 }
 
 interface IArticles {
@@ -21,9 +22,15 @@ interface IParams {
   user_id?: number;
 }
 
+interface IWithLoaderProps {
+  loading: boolean
+  toggleLoading: (flag?: boolean) => void
+}
+
 export {
   IArticleForm,
   IArticles,
   IListItemPreview,
   IParams,
+  IWithLoaderProps,
 }

@@ -1,49 +1,32 @@
 import React, {useState} from 'react'
-import {Formik, Form, Field, ErrorMessage, FormikHelpers} from 'formik'
+import {Formik, Form, Field, ErrorMessage} from 'formik'
 import {IArticleForm, IParams} from '../interfaces'
 import {Box, Button, CircularProgress} from '@mui/material'
-import {createArticle} from '../../../api/articles/articles'
-import {toast} from 'react-hot-toast'
-import {buttonText, toast as toastTranslations, validations} from '../../../config/translations/en.json'
-import {redirectTo} from '../../../utils/nav'
+import {buttonText, validations} from '../../../config/translations/en.json'
 
 const defaultProps = {
-  className: null
+  article: [],
+  className: null,
+  onSubmit: null,
 }
 
-const ArticleForm = ({className}: IArticleForm) => {
-  const [loading, setLoading] = useState(false)
+const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleForm) => {
+  const [initialValues, setInitialValues] = useState({title: '', content: ''})
 
   return (
     <div className={className}>
       <Formik
-        initialValues={{title: '', content: ''}}
+        initialValues={initialValues}
+        onSubmit={(values: IParams) => onSave(values)}
         validate={values => {
           const errors: Record<string, string> = {title: '', content: ''}
-          if (!values.title) errors.title = validations.requiredTitle
           if (!values.content) errors.content = validations.requiredContent
+          if (!values.title) errors.title = validations.requiredTitle
 
           Object.keys(errors).forEach(key => {
             if (!errors[key]) delete errors[key]
           })
           return errors
-        }}
-        onSubmit={(values: IParams, {resetForm}: FormikHelpers<IParams>) => {
-          // TODO add to current user when available
-          setLoading(true)
-          values.user_id = 1
-          createArticle(values)
-            .then(({request}) => {
-              resetForm()
-              redirectTo(request?.responseURL, {
-                toast: {
-                  message: toastTranslations.successSaved,
-                  type: 'success',
-                }
-              })
-            })
-            .catch(() => toast.error(toastTranslations.errorGeneric))
-            .finally(() => setLoading(false))
         }}
       >
         {() => (

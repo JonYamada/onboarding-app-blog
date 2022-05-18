@@ -1,20 +1,22 @@
-import React, {useState} from 'react'
+import React from 'react'
 import ArticleForm from './common/form'
-import {IParams} from './interfaces'
+import {IArticleForm, IParams} from './interfaces'
 import {createArticle} from '../../api/articles/articles'
 import {redirectTo} from '../../utils/nav'
 import {toast as toastTranslations} from '../../config/translations/en.json'
 import {toast} from 'react-hot-toast'
+import withLoader from '../../HOCs/withLoader'
 
 const defaultProps = {
-  className: null
+  className: null,
+  loading: false,
+  toggleLoading: () => {
+  },
 }
 
-const NewArticle = ({className}: { article: IParams, className: string }) => {
-  const [loading, setLoading] = useState(false)
-
+const NewArticle = ({className, loading, toggleLoading}: IArticleForm) => {
   const handleSubmit = (values: IParams) => {
-    setLoading(true)
+    if (toggleLoading) toggleLoading()
     createArticle(values)
       .then(({request}) => {
         redirectTo(request?.responseURL, {
@@ -25,12 +27,14 @@ const NewArticle = ({className}: { article: IParams, className: string }) => {
         })
       })
       .catch(() => toast.error(toastTranslations.errorGeneric))
-      .finally(() => setLoading(false))
+      .finally(() => {
+        if (toggleLoading) toggleLoading(false)
+      })
   }
 
-  return <ArticleForm onSubmit={handleSubmit} className={`new-article ${className}`}/>
+  return <ArticleForm onSubmit={handleSubmit} className={`new-article ${className}`} loading={loading}/>
 }
 
 NewArticle.defaultProps = defaultProps
 
-export default NewArticle
+export default withLoader(NewArticle)
