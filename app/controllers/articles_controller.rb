@@ -8,9 +8,9 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
-    if @article.save
+    if @article.save!
       # TODO: redirect to show when action available
-      redirect_to articles_path
+      redirect_to articles_path, status: 301
     else
       render :new, status: :unprocessable_entity
     end
