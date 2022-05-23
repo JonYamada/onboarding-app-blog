@@ -11,7 +11,7 @@ interface IArticles {
 }
 
 interface IListItemPreview {
-  content: string
+  content: string | object
   profileImg?: string
   title: string
 }

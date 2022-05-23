@@ -6,6 +6,7 @@ import {redirectTo} from '../../utils/nav'
 import {toast as toastTranslations} from '../../config/translations/en.json'
 import {toast} from 'react-hot-toast'
 import withLoader from '../../HOCs/withLoader'
+import MainLayout from '../../layouts/MainLayout'
 
 const defaultProps = {
   className: null,
@@ -32,7 +33,11 @@ const NewArticle = ({className, loading, toggleLoading}: IArticleForm) => {
       })
   }
 
-  return <ArticleForm onSubmit={handleSubmit} className={`new-article ${className}`} loading={loading}/>
+  return (
+    <MainLayout>
+      <ArticleForm onSubmit={handleSubmit} className={`new-article ${className}`} loading={loading}/>
+    </MainLayout>
+  )
 }
 
 NewArticle.defaultProps = defaultProps
