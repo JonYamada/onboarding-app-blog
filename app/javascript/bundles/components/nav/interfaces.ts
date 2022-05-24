@@ -7,6 +7,7 @@ interface IAppBarProps extends MuiAppBarProps {
 
 interface ISideNavProps {
   children: ReactNode
+  width: number
 }
 
 export {IAppBarProps, ISideNavProps}
