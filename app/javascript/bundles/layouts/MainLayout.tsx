@@ -1,11 +1,13 @@
 import React from 'react'
 import SideNav from '../components/nav/SideNav'
-import {Box, Toolbar} from '@mui/material'
+import {Box, ThemeProvider, Toolbar} from '@mui/material'
 import MuiAppBar from '@mui/material/AppBar'
 import {IMainLayoutProps} from './interfaces'
 import Typography from '@mui/material/Typography'
 import {styled} from '@mui/material/styles'
 import {IAppBarProps} from '../components/nav/interfaces'
+import {theme} from '../config/theme/theme'
+import '../assets/stylesheets/forms.scss'
 
 const defaultProps = {
   className: null
@@ -21,18 +23,20 @@ const MainLayout = ({className, children}: IMainLayoutProps) => {
   }))
 
   return (
-    <Box className={className}>
-      <AppBar position='fixed' open>
-        <Toolbar>
-          <Typography variant='h6' noWrap component='div'>
-            items n such
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <SideNav width={drawerWidth}>
-        {children}
-      </SideNav>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box className={className}>
+        <AppBar position='fixed' open>
+          <Toolbar>
+            <Typography variant='h6' noWrap component='div'>
+              items n such
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <SideNav width={drawerWidth}>
+          {children}
+        </SideNav>
+      </Box>
+    </ThemeProvider>
   )
 }
 

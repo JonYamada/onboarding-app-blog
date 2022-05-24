@@ -2,7 +2,7 @@ import ReactOnRails from 'react-on-rails'
 
 // components
 import HelloWorld from '../bundles/HelloWorld/components/HelloWorld.tsx'
-import ListItemPreview from '../bundles/components/lists/ListItemPreview'
+import ListItemPreview from '../bundles/components/list/ListItemPreview'
 import {Toaster} from 'react-hot-toast'
 
 // hooks
