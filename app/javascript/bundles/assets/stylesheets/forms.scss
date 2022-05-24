@@ -1,0 +1,23 @@
+$invalid-color: #d32f2f;
+$input-border-color: rgba(0, 0, 0, 0.42);
+
+form {
+  label {
+    display: inline-block;
+    font-weight: bold;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  .rdw-editor-main {
+    border: 1px solid $input-border-color;
+  }
+    
+  .error-message {
+    color: $invalid-color !important
+  }
+
+  .border-invalid {
+    border: 1px solid $invalid-color;
+  }
+}

@@ -20,6 +20,7 @@ const RichTextEditor = ({className, onChange, rest}: IRichTextEditorProps) => {
 
   return (
     <Editor
+      editorStyle={{padding: '0 5px', minHeight: 300}}
       toolbar={{
         options: ['inline', 'blockType', 'fontSize', 'list', 'link', 'emoji', 'history'],
       }}

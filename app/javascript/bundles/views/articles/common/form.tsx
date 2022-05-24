@@ -6,6 +6,7 @@ import {ErrorMessage, Form, Formik} from 'formik'
 import {IArticleForm, IParams} from '../interfaces'
 import {buttonText, form, validations} from '../../../config/translations/en.json'
 import RichTextEditor from '../../../components/editor/RichTextEditor'
+import Card from '../../../components/card/Card'
 
 const defaultProps = {
   article: [],
@@ -37,29 +38,42 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
           return errors
         }}
       >
-        {
-          () => (
-            <Form>
-              <Box sx={{marginBottom: 1}}>
+        {({errors}) => (
+          <Form>
+
+            <Card>
+              <Box sx={{mb: 1}}>
                 <label>{form.label.title}</label>
                 <Input
-                  onChange={({target: {value: title}}) => setValues({...values, title})}
-                  name='title'
                   type='text'
+                  error={!!errors.title}
+                  name='title'
+                  onChange={({target: {value: title}}) => setValues({...values, title})}
+                  sx={{width: '100%', marginBottom: 1}}
                 />
-                <ErrorMessage name='title' component='div'/>
+                <ErrorMessage className='error-message' name='title' component='div'/>
               </Box>
-              <Box>
+              <Box sx={{mb: 1}}>
                 <label>{form.label.content}</label>
-                <RichTextEditor onChange={html => setValues({...values, content: html})}/>
-                <ErrorMessage name='content' component='div'/>
+                <RichTextEditor
+                  className={`${!!errors.content && 'border-invalid'}`}
+                  onChange={html => setValues({...values, content: html})}
+                />
+                <ErrorMessage className='error-message' name='content' component='div'/>
               </Box>
+            </Card>
 
-              <LoadingButton type='submit' loading={loading} loadingPosition='center' variant='contained'>
-                {buttonText.submit}
-              </LoadingButton>
-            </Form>
-          )
+            <LoadingButton
+              type='submit'
+              loading={loading}
+              loadingPosition='center'
+              sx={{mt: 1, float: 'right'}}
+              variant='contained'
+            >
+              {buttonText.submit}
+            </LoadingButton>
+          </Form>
+        )
         }
       </Formik>
     </Box>
