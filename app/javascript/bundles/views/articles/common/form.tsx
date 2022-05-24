@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import {Box, Button, CircularProgress, Input} from '@mui/material'
+import {Box, Input} from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 import {EditorState} from 'draft-js'
 import {Editor} from 'react-draft-wysiwyg'
 import {ErrorMessage, Form, Formik} from 'formik'
-import {IArticleForm} from '../interfaces'
-import {buttonText, validations} from '../../../config/translations/en.json'
+import {IArticleForm, IParams} from '../interfaces'
+import {buttonText, form, validations} from '../../../config/translations/en.json'
 import {stateToHTML} from 'draft-js-export-html'
-import parse from 'html-react-parser'
 
 const defaultProps = {
   article: [],
@@ -16,7 +16,7 @@ const defaultProps = {
 }
 
 const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleForm) => {
-  const [values, setValues] = useState<{ title: string, content: string }>({
+  const [values, setValues] = useState<IParams>({
     content: '',
     title: '',
   })
@@ -45,7 +45,7 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
           () => (
             <Form>
               <Box sx={{marginBottom: 1}}>
-                <label>Title</label>
+                <label>{form.label.title}</label>
                 <Input
                   onChange={({target: {value: title}}) => setValues({...values, title})}
                   name='title'
@@ -54,7 +54,7 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
                 <ErrorMessage name='title' component='div'/>
               </Box>
               <Box>
-                <label>Content</label>
+                <label>{form.label.content}</label>
                 <Editor
                   editorState={editorState}
                   onEditorStateChange={editorState => {
@@ -64,12 +64,10 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
                 />
                 <ErrorMessage name='content' component='div'/>
               </Box>
-              {
-                loading ? <CircularProgress/> :
-                  <Button variant='contained' type='submit' disabled={loading}>
-                    {buttonText.submit}
-                  </Button>
-              }
+
+              <LoadingButton type='submit' loading={loading} loadingPosition='center' variant='contained'>
+                {buttonText.submit}
+              </LoadingButton>
             </Form>
           )
         }
