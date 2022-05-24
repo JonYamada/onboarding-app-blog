@@ -11,7 +11,7 @@ const defaultProps = {
   className: null
 }
 
-const drawerWidth = 240
+const drawerWidth = 200
 
 const MainLayout = ({className, children}: IMainLayoutProps) => {
   const AppBar = styled(MuiAppBar)<IAppBarProps>(({theme}) => ({
@@ -19,6 +19,7 @@ const MainLayout = ({className, children}: IMainLayoutProps) => {
     width: `calc(100% - ${drawerWidth}px)`,
     zIndex: theme.zIndex.drawer + 1,
   }))
+
   return (
     <Box className={className}>
       <AppBar position='fixed' open>
@@ -28,7 +29,7 @@ const MainLayout = ({className, children}: IMainLayoutProps) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <SideNav>
+      <SideNav width={drawerWidth}>
         {children}
       </SideNav>
     </Box>
