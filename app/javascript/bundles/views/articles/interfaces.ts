@@ -17,8 +17,8 @@ interface IListItemPreview {
 }
 
 interface IParams {
-  title: string;
   content: string;
+  title: string;
   user_id?: number;
 }
 

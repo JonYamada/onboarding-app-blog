@@ -2,12 +2,10 @@ import React, {useState} from 'react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import {Box, Input} from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
-import {EditorState} from 'draft-js'
-import {Editor} from 'react-draft-wysiwyg'
 import {ErrorMessage, Form, Formik} from 'formik'
 import {IArticleForm, IParams} from '../interfaces'
 import {buttonText, form, validations} from '../../../config/translations/en.json'
-import {stateToHTML} from 'draft-js-export-html'
+import RichTextEditor from '../../../components/editor/RichTextEditor'
 
 const defaultProps = {
   article: [],
@@ -20,8 +18,6 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
     content: '',
     title: '',
   })
-
-  const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
   return (
     <Box className={className}>
@@ -55,13 +51,7 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
               </Box>
               <Box>
                 <label>{form.label.content}</label>
-                <Editor
-                  editorState={editorState}
-                  onEditorStateChange={editorState => {
-                    setEditorState(editorState)
-                    setValues({...values, content: stateToHTML(editorState.getCurrentContent())})
-                  }}
-                />
+                <RichTextEditor onChange={html => setValues({...values, content: html})}/>
                 <ErrorMessage name='content' component='div'/>
               </Box>
 
