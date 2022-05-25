@@ -1,12 +1,12 @@
 import React from 'react'
 import ArticleForm from './common/form'
+import MainLayout from '../../layouts/MainLayout'
+import withLoader from '../../HOCs/withLoader'
 import {IArticleForm, IParams} from './interfaces'
 import {createArticle} from '../../api/articles/articles'
 import {redirectTo} from '../../utils/nav'
 import {toast as toastTranslations} from '../../config/translations/en.json'
 import {toast} from 'react-hot-toast'
-import withLoader from '../../HOCs/withLoader'
-import MainLayout from '../../layouts/MainLayout'
 
 const defaultProps = {
   className: null,
@@ -35,7 +35,11 @@ const NewArticle = ({className, loading, toggleLoading}: IArticleForm) => {
 
   return (
     <MainLayout>
-      <ArticleForm onSubmit={handleSubmit} className={`new-article ${className}`} loading={loading}/>
+      <ArticleForm
+        className={`new-article ${className}`}
+        loading={loading}
+        onSubmit={handleSubmit}
+      />
     </MainLayout>
   )
 }

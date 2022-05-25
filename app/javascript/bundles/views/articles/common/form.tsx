@@ -1,12 +1,11 @@
 import React, {useState} from 'react'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import {Box, Input} from '@mui/material'
+import Card from '../../../components/card/Card'
 import LoadingButton from '@mui/lab/LoadingButton'
+import RichTextEditor from '../../../components/editor/RichTextEditor'
+import {Box, Input} from '@mui/material'
 import {ErrorMessage, Form, Formik} from 'formik'
 import {IArticleForm, IParams} from '../interfaces'
 import {buttonText, form, validations} from '../../../config/translations/en.json'
-import RichTextEditor from '../../../components/editor/RichTextEditor'
-import Card from '../../../components/card/Card'
 
 const defaultProps = {
   article: [],
@@ -14,11 +13,17 @@ const defaultProps = {
   onSubmit: null,
 }
 
+interface IErrors {
+  content?: { isEmpty?: boolean, message?: string }
+  title?: { isEmpty?: boolean, message?: string }
+}
+
 const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleForm) => {
-  const [values, setValues] = useState<IParams>({
-    content: '',
-    title: '',
+  const [errors, setErrors] = useState<IErrors>({
+    content: {isEmpty: false, message: ''},
+    title: {isEmpty: false, message: ''}
   })
+  const [values, setValues] = useState<IParams>({content: '', title: ''})
 
   return (
     <Box className={className}>
@@ -28,25 +33,29 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
           if (onSave) onSave(values)
         }}
         validate={() => {
-          const errors: Record<string, string> = {title: '', content: ''}
-          if (!values.content) errors.content = validations.requiredContent
-          if (!values.title) errors.title = validations.requiredTitle
+          const formikErrors: Record<string, string> = {}
 
-          Object.keys(errors).forEach(key => {
-            if (!errors[key]) delete errors[key]
-          })
-          return errors
+          if (!values.content || errors.content?.isEmpty) {
+            setErrors({...errors, content: {...errors.content, message: validations.requiredContent}})
+            formikErrors.content = validations.requiredContent
+          }
+
+          if (!values.title) {
+            setErrors({...errors, title: {...errors.title, message: validations.requiredTitle}})
+            formikErrors.title = validations.requiredTitle
+          }
+
+          return formikErrors
         }}
       >
-        {({errors}) => (
+        {({errors: formikErrors}) => (
           <Form>
-
             <Card>
               <Box sx={{mb: 1}}>
                 <label>{form.label.title}</label>
                 <Input
                   type='text'
-                  error={!!errors.title}
+                  error={!!formikErrors?.title}
                   name='title'
                   onChange={({target: {value: title}}) => setValues({...values, title})}
                   sx={{width: '100%', marginBottom: 1}}
@@ -56,8 +65,9 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
               <Box sx={{mb: 1}}>
                 <label>{form.label.content}</label>
                 <RichTextEditor
-                  className={`${!!errors.content && 'border-invalid'}`}
+                  className={`${!!formikErrors?.content && 'border-invalid'}`}
                   onChange={html => setValues({...values, content: html})}
+                  onError={({isEmpty, message}) => setErrors({...errors, content: {isEmpty, message}})}
                 />
                 <ErrorMessage className='error-message' name='content' component='div'/>
               </Box>
@@ -73,8 +83,7 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
               {buttonText.submit}
             </LoadingButton>
           </Form>
-        )
-        }
+        )}
       </Formik>
     </Box>
   )

@@ -1,23 +1,54 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import translations from '../../config/translations/en.json'
 import {EditorState} from 'draft-js'
 import {Editor} from 'react-draft-wysiwyg'
 import {stateToHTML} from 'draft-js-export-html'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const defaultProps = {
   className: null,
   onChange: null,
+  onError: {},
   rest: null,
 }
 
 interface IRichTextEditorProps {
   className?: string
   onChange: (htmlContent: string) => void
+  onError: (errors: { isEmpty: boolean, message: string }) => void
   rest?: object,
 }
 
-const RichTextEditor = ({className, onChange, rest}: IRichTextEditorProps) => {
+const RichTextEditor = ({className, onChange, onError, rest}: IRichTextEditorProps): JSX.Element => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  const [errors, setErrors] = useState({isEmpty: false, message: ''})
+  const [submitTouched, setSubmitTouched] = useState(false)
+
+  useEffect(() => {
+    const form = document.getElementsByTagName('form')
+    if (form.length > 0) {
+      form[0].addEventListener('submit', () => {
+        if (submitTouched) validate()
+        setSubmitTouched(true)
+      })
+    }
+    onError(errors)
+  }, [editorState])
+
+  const htmlContent = stateToHTML(editorState.getCurrentContent())
+
+  const extractHTMLTextContent = (html: string) => {
+    return new DOMParser().parseFromString(html, 'text/html').documentElement.textContent
+  }
+
+  const validate = () => {
+    const isEmpty = extractHTMLTextContent(htmlContent)?.trim().length === 0
+    setErrors({
+      ...errors,
+      isEmpty,
+      message: isEmpty ? translations.validations.requiredContent : '',
+    })
+  }
 
   return (
     <Editor
@@ -29,8 +60,9 @@ const RichTextEditor = ({className, onChange, rest}: IRichTextEditorProps) => {
       editorClassName={className}
       editorState={editorState}
       onEditorStateChange={editorState => {
+        if (submitTouched) validate()
         setEditorState(editorState)
-        onChange(stateToHTML(editorState.getCurrentContent()))
+        onChange(htmlContent)
       }}
     />
   )
