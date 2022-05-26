@@ -14,8 +14,8 @@ const defaultProps = {
   className: null
 }
 
-const drawerWidth = 200
 const AVATAR_MENU = 'avatar-menu'
+const drawerWidth = 200
 
 const MainLayout = ({className, children}: IMainLayoutProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)

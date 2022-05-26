@@ -11,20 +11,12 @@ import MuiDrawer from '@mui/material/Drawer'
 import SettingsIcon from '@mui/icons-material/Settings'
 import {ARTICLES_PATH, SETTINGS_PATH} from '../../constants/routes'
 import {CSSObject, styled, Theme} from '@mui/material/styles'
+import {CssBaseline, useTheme} from '@mui/material'
 import {ISideNavProps} from './interfaces'
 import {LOGO} from '../../constants/images'
 import {redirectTo, toHomePage} from '../../utils/nav'
-import {CssBaseline, useTheme} from '@mui/material'
 
-const openedMixin = (theme: Theme, width: number): CSSObject =>
-  ({
-    width,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-  })
+const openedMixin = (theme: Theme, width: number): CSSObject => ({width, overflowX: 'hidden'})
 
 const DrawerHeader = styled('div')(({theme}) =>
   ({
@@ -67,7 +59,7 @@ const navItems = [
 
 export default function SideNav({children, width}: ISideNavProps) {
   const theme = useTheme()
-  
+
   return (
     <Box sx={{marginTop: 10}}>
       <CssBaseline/>
@@ -87,7 +79,7 @@ export default function SideNav({children, width}: ISideNavProps) {
           ))}
         </List>
       </Drawer>
-      <Box component='main' sx={{marginLeft: 30, p: 1}}>
+      <Box component='main' sx={{ml: width / 8, p: 2}}>
         {children}
       </Box>
     </Box>
