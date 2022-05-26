@@ -3,6 +3,12 @@
     "newArticle": "New Article",
     "submit": "Submit"
   },
+  "form": {
+    "label": {
+      "content": "Content",
+      "title": "Title"
+    }
+  },
   "toast": {
     "errorGeneric": "Oops, something went wrong",
     "successSaved": "Saved Successfully"
