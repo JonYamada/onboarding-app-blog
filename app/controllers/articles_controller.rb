@@ -18,6 +18,7 @@ class ArticlesController < ApplicationController
 
   private
 
+  # TODO: implement slug to hide id in urls
   def slug; end
 
   def article_params
