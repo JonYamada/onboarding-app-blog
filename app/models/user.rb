@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_many :articles
 
+  # TODO add this to navbar avatar
   def initials
     return "#{first_name[0]}#{last_name[0]}".upcase if last_name.present?
     first_name.upcase
