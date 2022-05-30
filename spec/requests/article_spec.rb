@@ -6,7 +6,7 @@ RSpec.describe "Articles", type: :request do
   end
 
   after(:context) do
-    Article.all.destroy_all unless Article.count.zero?
+    Article.destroy_all unless Article.count.zero?
   end
 
   describe 'POST /create' do
