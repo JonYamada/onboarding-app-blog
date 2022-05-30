@@ -9,16 +9,6 @@ RSpec.describe "Articles", type: :request do
     Article.all.destroy_all unless Article.count.zero?
   end
 
-  describe "GET /index" do
-    skip 'retrieves articles' do
-      # TODO: complete this test
-    end
-
-    skip 'renders the index template' do
-      # TODO: complete this test
-    end
-  end
-
   describe 'POST /create' do
     it 'successfully creates an article' do
       initial_article_count = Article.count
