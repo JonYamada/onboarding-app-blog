@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
-  before(:context) do
-    @user = User.find_or_create_by!(first_name: 'jon', last_name: 'yams', email: 'jonathon.yamada@wpengine.com')
-  end
-
   after(:context) do
     Article.destroy_all unless Article.count.zero?
   end
