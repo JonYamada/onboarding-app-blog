@@ -70,4 +70,6 @@ guard :rspec, cmd: "bundle exec rspec" do
 
   watch(%r{^app/controllers/(.+)\.rb$}) { "spec/requests" }
   watch(%r{^app/models/(.+)\.rb$}) { "spec/models" }
+  watch(%r{^spec/helpers.rb$}) { "spec/models" }
+  watch(%r{^spec/helpers.rb$}) { "spec/requests" }
 end

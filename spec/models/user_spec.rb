@@ -8,14 +8,12 @@ RSpec.describe User, type: :model do
   describe 'Validations' do
     it 'should have a required first_name field' do
       user = User.create(first_name: '', last_name: 'McLast', email: 'user@email.com')
-      expect(user).to_not be_valid
-      expect(user.errors.messages[:first_name][0]).to eq("can't be blank")
+      expect_presence(user, :first_name)
     end
 
     it 'should have a required email field' do
       user = User.create(first_name: 'first name', last_name: 'McLast', email: '')
-      expect(user).to_not be_valid
-      expect(user.errors.messages[:email][0]).to eq("can't be blank")
+      expect_presence(user, :email)
     end
 
     it 'should not have a required last_name field' do
@@ -57,7 +55,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'methods' do
+  describe 'User methods' do
     it 'should return user initials' do
       user = User.create(first_name: 'Joe', last_name: '', email: 'joe@bloggs.com')
       expect(user.initials).to eq('J')

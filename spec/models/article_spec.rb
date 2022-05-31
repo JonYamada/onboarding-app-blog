@@ -7,30 +7,21 @@ RSpec.describe Article, type: :model do
 
   it 'should have a required title field' do
     article = Article.create(title: '', content: 'contents', user_id: @user.id)
-    expect(article).to_not be_valid
-    expect(article.errors.messages[:title].count).to be > 0
-    expect(article.errors.messages[:title][0]).to eq("can't be blank")
+    expect_presence(article, :title)
   end
 
   it 'should have a required content field' do
     article = Article.create(title: 'title', content: '', user_id: @user.id)
-    expect(article).to_not be_valid
-    expect(article.errors.messages[:content].count).to be > 0
-    expect(article.errors.messages[:content][0]).to eq("can't be blank")
+    expect_presence(article, :content)
   end
 
   it 'should be related to a user' do
     article = Article.create(title: 'title', content: 'contents', user_id: nil)
-    expect(article).to_not be_valid
-    expect(article.errors.messages[:user].count).to be > 0
-    expect(article.errors.messages[:user][0]).to eq("must exist")
+    expect_presence(article, :user, { error_message: 'must exist' })
   end
 
   it 'should successfully save when valid' do
-    initial_article_count = Article.count
-    article = Article.create(title: 'title', content: 'contents', user_id: @user.id)
-    expect(article).to be_valid
-    expect(article.errors.messages.count).to eq(0)
-    expect(Article.count).to eq(initial_article_count + 1)
+    article = Article.new(title: 'title', content: 'contents', user_id: @user.id)
+    expect_successfully_saved(article)
   end
 end
