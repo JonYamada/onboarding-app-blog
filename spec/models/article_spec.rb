@@ -22,4 +22,11 @@ RSpec.describe Article, type: :model do
     expect(article.errors.messages[:content].count).to be > 0
     expect(article.errors.messages[:content][0]).to eq("can't be blank")
   end
+
+  it 'should be related to a user' do
+    article = Article.create(title: 'title', content: 'contents', user_id: nil)
+    expect(article).to_not be_valid
+    expect(article.errors.messages[:user].count).to be > 0
+    expect(article.errors.messages[:user][0]).to eq("must exist")
+  end
 end
