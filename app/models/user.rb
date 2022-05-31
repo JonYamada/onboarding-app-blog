@@ -3,12 +3,12 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validate :correct_email_format
 
-  has_many :articles
+  has_many :articles, dependent: :destroy
 
   # TODO add this to navbar avatar
   def initials
     return "#{first_name[0]}#{last_name[0]}".upcase if last_name.present?
-    first_name.upcase
+    first_name[0].upcase
   end
 
   private
