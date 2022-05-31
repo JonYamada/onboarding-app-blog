@@ -29,4 +29,12 @@ RSpec.describe Article, type: :model do
     expect(article.errors.messages[:user].count).to be > 0
     expect(article.errors.messages[:user][0]).to eq("must exist")
   end
+
+  it 'should successfully save when valid' do
+    initial_article_count = Article.count
+    article = Article.create(title: 'title', content: 'contents', user_id: @user.id)
+    expect(article).to be_valid
+    expect(article.errors.messages.count).to eq(0)
+    expect(Article.count).to eq(initial_article_count + 1)
+  end
 end
