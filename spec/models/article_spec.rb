@@ -11,7 +11,6 @@ RSpec.describe Article, type: :model do
 
   it 'should have a required title field' do
     article = Article.create(title: '', content: 'contents', user_id: @user.id)
-    p Article.all
     expect(article).to_not be_valid
     expect(article.errors.messages[:title].count).to be > 0
     expect(article.errors.messages[:title][0]).to eq("can't be blank")
