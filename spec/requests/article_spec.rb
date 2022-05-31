@@ -9,7 +9,7 @@ RSpec.describe "Articles", type: :request do
     it 'successfully creates an article' do
       initial_article_count = Article.count
 
-      post '/articles', params: { article: { title: 'Test Title', content: 'Test Content', user_id: @user.id } }
+      post articles_path, params: { article: { title: 'Test Title', content: 'Test Content', user_id: @user.id } }
 
       expect(response).to redirect_to(:articles)
       expect(response).to have_http_status(301)
@@ -24,7 +24,7 @@ RSpec.describe "Articles", type: :request do
       params_blank_user_id = { article: { title: 'Test Title', content: 'Test Contents', user_id: nil } }
 
       [params_blank_title, params_blank_content, params_blank_user_id].each do |params|
-        post '/articles', params: params
+        post articles_path, params: params
         expect(response).to have_http_status(422)
         expect(initial_article_count).eql?(Article.count)
       end
