@@ -31,6 +31,7 @@ gem 'webpacker'
 gem 'msgpack'
 gem 'nokogiri', '~>1.13.4'
 
+gem 'shakapacker', '= 6.3'
 # Use Sass to process CSS
 # gem 'sassc-rails'
 
@@ -62,4 +63,3 @@ group :test do
   gem 'guard'
   gem 'guard-rspec', require: false
 end
-
