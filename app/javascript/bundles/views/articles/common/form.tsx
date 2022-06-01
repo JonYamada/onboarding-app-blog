@@ -23,6 +23,7 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
     content: {isEmpty: false, message: ''},
     title: {isEmpty: false, message: ''}
   })
+  
   const [values, setValues] = useState<IParams>({content: '', title: ''})
 
   return (
