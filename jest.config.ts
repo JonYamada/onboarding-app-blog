@@ -1,4 +1,3 @@
-const {defaults} = require('jest-config')
 import type {Config} from '@jest/types'
 
 const config: Config.InitialOptions = {
@@ -6,6 +5,9 @@ const config: Config.InitialOptions = {
   moduleNameMapper: {"\\.(css|less|scss|sass)$": "<rootDir>app/javascript/bundles/assets/stylesheets/__mocks__/mockStyles"},
   notify: true,
   testEnvironment: 'jsdom',
+  testPathIgnorePatterns: [
+    '<rootDir>/config/webpack/test.js',
+  ],
   verbose: true,
 }
 
