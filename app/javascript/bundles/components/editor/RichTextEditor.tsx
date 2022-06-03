@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import translations from '../../config/translations/en.json'
 import {EditorState} from 'draft-js'
-import {Editor} from 'react-draft-wysiwyg'
+import {Editor, EditorProps} from 'react-draft-wysiwyg'
 import {stateToHTML} from 'draft-js-export-html'
 
 const defaultProps = {
@@ -16,10 +16,10 @@ interface IRichTextEditorProps {
   className?: string
   onChange: (htmlContent: string) => void
   onError: (errors: { isEmpty: boolean, message: string }) => void
-  rest?: object,
+  rest?: EditorProps,
 }
 
-const RichTextEditor = ({className, onChange, onError, rest}: IRichTextEditorProps): JSX.Element => {
+const RichTextEditor = ({className, onChange, onError, ...rest}: IRichTextEditorProps & EditorProps): JSX.Element => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
   const [errors, setErrors] = useState({isEmpty: false, message: ''})
   const [submitTouched, setSubmitTouched] = useState(false)
