@@ -1,3 +1,5 @@
+import {RawDraftContentState} from 'draft-js'
+
 interface IArticleForm extends Partial<IWithLoaderProps> {
   article?: IParams
   className?: string
@@ -17,7 +19,7 @@ interface IListItemPreview {
 }
 
 interface IParams {
-  content: string;
+  content: string | RawDraftContentState;
   title: string;
   user_id?: number;
 }
