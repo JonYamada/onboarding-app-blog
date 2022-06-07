@@ -17,25 +17,15 @@ module.exports = function (api) {
 
   return {
     presets: [
-      isTestEnv && [
+      ...isTestEnv ? [
         '@babel/preset-env',
         {
-          targets: {
-            node: 'current',
-          },
+          targets: {'node': 'current'},
         },
-      ],
-      (isProductionEnv || isDevelopmentEnv) && [
-        '@babel/preset-env', {targets: {node: 'current'}},
+      ] : [],
+      ...(isProductionEnv || isDevelopmentEnv) ? [
         '@babel/preset-typescript',
-        {
-          forceAllTransforms: true,
-          useBuiltIns: 'entry',
-          corejs: 3,
-          modules: false,
-          exclude: ['transform-typeof-symbol'],
-        },
-      ],
+      ] : [],
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
