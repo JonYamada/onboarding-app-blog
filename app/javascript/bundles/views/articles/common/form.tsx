@@ -65,8 +65,9 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
                 <ErrorMessage className='error-message' name='title' component='div'/>
               </Box>
               <Box sx={{mb: 1}}>
-                <label>{form.label.content}</label>
+                <label htmlFor='content'>{form.label.content}</label>
                 <RichTextEditor
+                  ariaLabel='aria-editor'
                   className={`${!!formikErrors?.content && 'border-invalid'}`}
                   onChange={html => setValues({...values, content: html})}
                   onError={({isEmpty, message}) => setErrors({...errors, content: {isEmpty, message}})}
