@@ -23,7 +23,7 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
     content: {isEmpty: false, message: ''},
     title: {isEmpty: false, message: ''}
   })
-  
+
   const [values, setValues] = useState<IParams>({content: '', title: ''})
 
   return (
@@ -53,10 +53,11 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
           <Form>
             <Card>
               <Box sx={{mb: 1}}>
-                <label>{form.label.title}</label>
+                <label htmlFor='title'>{form.label.title}</label>
                 <Input
                   type='text'
                   error={!!formikErrors?.title}
+                  id='title'
                   name='title'
                   onChange={({target: {value: title}}) => setValues({...values, title})}
                   sx={{width: '100%', marginBottom: 1}}

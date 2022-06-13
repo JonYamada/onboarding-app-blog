@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import ArticleForm from '../common/form'
+import ArticleForm from '../form'
 import {createEvent, fireEvent, getByText, getNodeText, render, screen, waitFor} from '@testing-library/react'
 
 describe('Article Form', () => {
