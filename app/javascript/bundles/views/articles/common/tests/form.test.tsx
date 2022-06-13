@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import ArticleForm from '../form'
-import {createEvent, fireEvent, getByText, getNodeText, render, screen, waitFor} from '@testing-library/react'
+import {createEvent, fireEvent, getByText, getNodeText, render, screen} from '@testing-library/react'
 
 describe('Article Form', () => {
   beforeEach(() => render(<ArticleForm/>))
@@ -120,12 +120,10 @@ describe('Article Form', () => {
 
       fireEvent.click(btnSubmit)
 
-      await waitFor(async () => {
-        const titleValidationMessage = await screen.findByText('Title Required')
-        const contentValidationMessage = await screen.queryByText('Content Required')
-        expect(titleValidationMessage).toBeInTheDocument()
-        expect(contentValidationMessage).not.toBeInTheDocument()
-      })
+      const titleValidationMessage = await screen.findByText('Title Required')
+      const contentValidationMessage = await screen.queryByText('Content Required')
+      expect(titleValidationMessage).toBeInTheDocument()
+      expect(contentValidationMessage).not.toBeInTheDocument()
     })
   })
 })
