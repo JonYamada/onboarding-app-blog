@@ -7,7 +7,7 @@ import {Toaster} from 'react-hot-toast'
 // hooks
 import UseToast from '../bundles/hooks/useToast'
 
-//views
+// views
 import ArticleForm from '../bundles/views/articles/common/form'
 import Articles from '../bundles/views/articles/index.tsx'
 import NewArticle from '../bundles/views/articles/new.tsx'

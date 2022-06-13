@@ -11,8 +11,7 @@ import {toast} from 'react-hot-toast'
 const defaultProps = {
   className: null,
   loading: false,
-  toggleLoading: () => {
-  },
+  toggleLoading: () => {},
 }
 
 const NewArticle = ({className, loading, toggleLoading}: IArticleForm) => {
