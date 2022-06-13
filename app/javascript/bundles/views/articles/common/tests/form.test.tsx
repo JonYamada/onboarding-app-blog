@@ -7,7 +7,7 @@ describe('Article Form', () => {
   beforeEach(() => render(<ArticleForm/>))
 
   describe('fields', () => {
-    it.only('expects only 2 fields', () => {
+    it('expects only 2 fields', () => {
       const fields = screen.getAllByRole('textbox')
       expect(fields).toHaveLength(2)
     })
