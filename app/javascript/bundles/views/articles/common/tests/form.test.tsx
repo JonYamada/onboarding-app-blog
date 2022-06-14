@@ -1,129 +1,116 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import ArticleForm from '../form'
-import {createEvent, fireEvent, getByText, getNodeText, render, screen} from '@testing-library/react'
+import {fireEvent, getNodeText, render, screen} from '@testing-library/react'
 
 describe('Article Form', () => {
-  beforeEach(() => render(<ArticleForm/>))
+  let titleInput: HTMLElement
+  let contentTextarea: HTMLElement
+  let btnSubmit: HTMLElement
+  
+  const populateTitleField = (value: string = 'sample title text') => fireEvent.input(titleInput, {target: {value}})
+  const populateContentField = (value: string = 'sample content text') => fireEvent.input(contentTextarea, {target: {innerHTML: value}})
+
+  // TODO change to beforeall
+  beforeEach(() => {
+    render(<ArticleForm/>)
+    contentTextarea = screen.getByRole('textbox', {name: 'aria-editor'})
+    titleInput = screen.getByLabelText('Title')
+    btnSubmit = screen.getByRole('button', {name: /submit/i})
+  })
 
   describe('fields', () => {
-    it('expects only 2 fields', () => {
+    it('expects only 2 textbox fields', () => {
       const fields = screen.getAllByRole('textbox')
       expect(fields).toHaveLength(2)
+      fields.forEach(field => expect(field).toBeInTheDocument())
     })
 
-    it('allows user to type in title input field', async () => {
-      const input = screen.getByLabelText('Title')
-      fireEvent.input(input, {target: {value: 'My article title'}})
-      expect(input).toHaveValue('My article title')
+    it('allows user to type in title input field', () => {
+      const sampleText = 'My article title'
+      populateTitleField(sampleText)
+      expect(titleInput).toHaveValue(sampleText)
     })
 
-    it('allows user to type in content textarea field', async () => {
-      const textarea = screen.getByRole('textbox', {name: 'aria-editor'})
-      expect(textarea).toBeInTheDocument()
-
-      fireEvent.input(textarea, {
-        target: {
-          innerHTML: 'My Article Content',
-        }
-      })
-
-      expect(getNodeText(screen.getByRole('textbox', {name: 'aria-editor'}))).toBe('My Article Content')
+    it('allows user to type in content textarea field', () => {
+      const sampleText = 'My article content'
+      populateContentField(sampleText)
+      expect(getNodeText(contentTextarea)).toBe(sampleText)
     })
   })
 
   describe('validations', () => {
-    it('nothing thrown when both title and content are present', async () => {
-      const input = screen.getByLabelText('Title')
-      fireEvent.input(input, {target: {value: 'My article title'}})
+    const titleValidationMessage = 'Title Required'
+    const contentValidationMessage = 'Content Required'
 
-      const textarea = screen.getByRole('textbox', {name: 'aria-editor'})
-      fireEvent(textarea, createEvent.paste(textarea, {
-        clipboardData: {
-          types: ['text/plain'],
-          getData: () => 'textbox content'
-        }
-      }))
+    const queryTitleValidationMessage = () => screen.queryByText(titleValidationMessage)
+    const queryContentValidationMessage = () => screen.queryByText(contentValidationMessage)
 
-      const btnSubmit = screen.getByRole('button', {name: /submit/i})
+    console.log({lily: titleInput})
+    const findTitleValidationMessage = () => screen.findByText(titleValidationMessage)
+    const findContentValidationMessage = () => screen.findByText(contentValidationMessage)
 
-      fireEvent.click(btnSubmit)
+    const expectTitleValueToBe = (value: string = '') => expect(titleInput).toHaveValue(value)
+    const expectContentValueToBe = (value: string = '') => expect(getNodeText(contentTextarea)).toBe(value)
 
-      const titleValidationMessage = await screen.queryByText('Title Required')
-      const contentValidationMessage = await screen.queryByText('Content Required')
+    const clickSubmit = () => fireEvent.click(btnSubmit)
 
-      expect(titleValidationMessage as HTMLElement).not.toBeInTheDocument()
-      expect(contentValidationMessage as HTMLElement).not.toBeInTheDocument()
+    it('throws nothing when both title and content are present', async () => {
+      expect(await queryTitleValidationMessage()).not.toBeInTheDocument()
+      expect(await queryContentValidationMessage()).not.toBeInTheDocument()
+
+
+      populateTitleField()
+      populateContentField()
+      clickSubmit()
+
+      expect(await queryTitleValidationMessage()).not.toBeInTheDocument()
+      expect(await queryContentValidationMessage()).not.toBeInTheDocument()
     })
 
-    it('thrown when both title and content fields are absent', async () => {
-      const editor = screen.getAllByLabelText('aria-editor')[0]
-      const textarea = editor.querySelector('[data-text="true"]')! as HTMLElement
-      const input = screen.getByLabelText('Title')
-      const btnSubmit = screen.getByRole('button')
+    it('is thrown when both title and content fields are absent', async () => {
+      populateTitleField('')
+      populateContentField('')
 
-      expect(input).toHaveValue('')
-      expect(getNodeText(textarea)).toBe('')
+      expectTitleValueToBe('')
+      expectContentValueToBe('')
 
-      expect(screen.queryByText('Title Required')).not.toBeInTheDocument()
-      expect(screen.queryByText('Content Required')).not.toBeInTheDocument()
+      expect(await queryTitleValidationMessage()).not.toBeInTheDocument()
+      expect(await queryContentValidationMessage()).not.toBeInTheDocument()
 
-      fireEvent.click(btnSubmit)
-
-      const titleValidationMessage = await screen.findByText('Title Required')
-      const contentValidationMessage = await screen.findByText('Content Required')
-
-      expect(titleValidationMessage).toBeInTheDocument()
-      expect(contentValidationMessage).toBeInTheDocument()
+      clickSubmit()
+      expect(await findTitleValidationMessage()).toBeInTheDocument()
+      expect(await findContentValidationMessage()).toBeInTheDocument()
     })
 
-    it('thrown when title field present and content field is absent', async () => {
-      const editor = screen.getAllByLabelText('aria-editor')[0]
-      const textarea = editor.querySelector('[data-text="true"]')! as HTMLElement
-      const input = screen.getByLabelText('Title')
-      const btnSubmit = screen.getByRole('button')
+    it('is thrown when title field present and content field is absent', async () => {
+      populateTitleField()
+      populateContentField('')
 
-      expect(getNodeText(textarea)).toBe('')
-      expect(screen.queryByText('Title Required')).not.toBeInTheDocument()
-      expect(screen.queryByText('Content Required')).not.toBeInTheDocument()
+      expectContentValueToBe('')
+      expect(await queryTitleValidationMessage()).not.toBeInTheDocument()
+      expect(await queryContentValidationMessage()).not.toBeInTheDocument()
 
-      fireEvent.change(input, {target: {value: 'My Title'}})
-      fireEvent.click(btnSubmit)
+      clickSubmit()
 
-      const titleValidationMessage = await screen.queryByText('Title Required')
-      const contentValidationMessage = await screen.findByText('Content Required')
-
-      expect(titleValidationMessage).not.toBeInTheDocument()
-      expect(contentValidationMessage).toBeInTheDocument()
+      expect(await queryTitleValidationMessage()).not.toBeInTheDocument()
+      expect(await findContentValidationMessage()).toBeInTheDocument()
     })
 
-    it('thrown when title field absent and content field is present', async () => {
-      const input = screen.getByLabelText('Title')
-      const btnSubmit = screen.getByRole('button')
+    it('is thrown when title field absent and content field is present', async () => {
+      populateTitleField('')
+      expectTitleValueToBe('')
 
-      const textarea = screen.getByRole('textbox', {name: 'aria-editor'})
+      populateContentField('My Content')
+      expectContentValueToBe('My Content')
 
-      expect(input).toHaveValue('')
-      expect(screen.queryByText('Title Required')).not.toBeInTheDocument()
-      expect(screen.queryByText('Content Required')).not.toBeInTheDocument()
+      expect(await queryTitleValidationMessage()).not.toBeInTheDocument()
+      expect(await queryContentValidationMessage()).not.toBeInTheDocument()
 
-      fireEvent(textarea, createEvent.paste(textarea, {
-        clipboardData: {
-          types: ['text/plain'],
-          getData: () => 'textbox content'
-        }
-      }))
+      clickSubmit()
 
-      getByText(screen.getByRole('textbox', {
-        name: 'aria-editor'
-      }), 'textbox content')
-
-      fireEvent.click(btnSubmit)
-
-      const titleValidationMessage = await screen.findByText('Title Required')
-      const contentValidationMessage = await screen.queryByText('Content Required')
-      expect(titleValidationMessage).toBeInTheDocument()
-      expect(contentValidationMessage).not.toBeInTheDocument()
+      expect(await queryContentValidationMessage()).not.toBeInTheDocument()
+      expect(await findTitleValidationMessage()).toBeInTheDocument()
     })
   })
 })
