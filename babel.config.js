@@ -17,11 +17,14 @@ module.exports = function (api) {
 
   return {
     presets: [
-      ...isTestEnv ? [
+      ...isTestEnv ? [[
         '@babel/preset-env',
         {
           targets: {'node': 'current'},
         },
+      ],
+        '@babel/preset-react',
+        '@babel/preset-typescript',
       ] : [],
       ...(isProductionEnv || isDevelopmentEnv) ? [
         '@babel/preset-typescript',
