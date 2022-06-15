@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
-      redirect_to article_path(@article), status: 301
+      redirect_to articles_path, status: 301
     else
       render :new, status: :unprocessable_entity
     end
