@@ -3,15 +3,15 @@ import '@testing-library/jest-dom'
 import ArticleForm from '../form'
 import {fireEvent, getNodeText, render, screen} from '@testing-library/react'
 
-describe('Article Form', () => {
+describe('Article Form Component', () => {
   let titleInput: HTMLElement
   let contentTextarea: HTMLElement
   let btnSubmit: HTMLElement
-  
+
   const populateTitleField = (value: string = 'sample title text') => fireEvent.input(titleInput, {target: {value}})
   const populateContentField = (value: string = 'sample content text') => fireEvent.input(contentTextarea, {target: {innerHTML: value}})
+  const clickSubmit = () => fireEvent.click(btnSubmit)
 
-  // TODO change to beforeall
   beforeEach(() => {
     render(<ArticleForm/>)
     contentTextarea = screen.getByRole('textbox', {name: 'aria-editor'})
@@ -46,19 +46,15 @@ describe('Article Form', () => {
     const queryTitleValidationMessage = () => screen.queryByText(titleValidationMessage)
     const queryContentValidationMessage = () => screen.queryByText(contentValidationMessage)
 
-    console.log({lily: titleInput})
     const findTitleValidationMessage = () => screen.findByText(titleValidationMessage)
     const findContentValidationMessage = () => screen.findByText(contentValidationMessage)
 
     const expectTitleValueToBe = (value: string = '') => expect(titleInput).toHaveValue(value)
     const expectContentValueToBe = (value: string = '') => expect(getNodeText(contentTextarea)).toBe(value)
 
-    const clickSubmit = () => fireEvent.click(btnSubmit)
-
     it('throws nothing when both title and content are present', async () => {
       expect(await queryTitleValidationMessage()).not.toBeInTheDocument()
       expect(await queryContentValidationMessage()).not.toBeInTheDocument()
-
 
       populateTitleField()
       populateContentField()

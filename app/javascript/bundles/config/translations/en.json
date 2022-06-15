@@ -1,5 +1,6 @@
 {
   "buttonText": {
+    "logout": "Logout",
     "newArticle": "New Article",
     "submit": "Submit"
   },

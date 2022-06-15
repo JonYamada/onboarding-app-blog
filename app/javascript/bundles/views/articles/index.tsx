@@ -24,14 +24,14 @@ const Articles = ({articles, className, newArticlePath}: IArticles) => {
             {buttonText.newArticle}
           </Button>
         </Grid>
-        {/*TODO complete this on task ATH-2561*/}
         <Grid item>
           {
             articles?.map(({title, content}: IListItemPreview) => (
               <ListItemPreview
                 content={typeof content === 'string' ? parse(content) : content}
                 title={title}
-                key={v4()}/>
+                key={v4()}
+              />
             ))
           }
         </Grid>

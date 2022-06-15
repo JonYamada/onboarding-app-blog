@@ -1,7 +1,9 @@
+import React from 'react'
 import renderer from 'react-test-renderer'
 import RichTextEditor from '../RichTextEditor'
 
 jest.mock('draft-js/lib/generateRandomKey', () => () => '123')
+
 describe('RichTextEditor', () => {
   it('renders correctly when required props provided only', () => {
     const tree = renderer.create(

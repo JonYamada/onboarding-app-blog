@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import '../assets/stylesheets/forms.scss'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Logout from '@mui/icons-material/Logout'
@@ -9,6 +9,7 @@ import {IAppBarProps} from '../components/nav/interfaces'
 import {IMainLayoutProps} from './interfaces'
 import {styled} from '@mui/material/styles'
 import {theme} from '../config/theme/theme'
+import {buttonText} from '../config/translations/en.json'
 
 const defaultProps = {
   className: null
@@ -31,8 +32,6 @@ const MainLayout = ({className, children}: IMainLayoutProps) => {
   }))
 
   const renderTopNavItems = () => {
-    // TODO add authorisation check field
-    // TODO fix menu dropdown UI issue
     const items = [
       {
         key: 'profile',
@@ -46,10 +45,7 @@ const MainLayout = ({className, children}: IMainLayoutProps) => {
               size='small'
               sx={{ml: 2}}
             >
-              <Avatar alt='user avatar' src='https://picsum.photos/200/300?random=1'>
-                {/*TODO add user initials*/}
-                JY
-              </Avatar>
+              <Avatar alt='user avatar' src='https://picsum.photos/200/300?random=1'/>
             </IconButton>
             <Menu
               anchorEl={anchorEl}
@@ -59,11 +55,10 @@ const MainLayout = ({className, children}: IMainLayoutProps) => {
               open={open}
             >
               <MenuItem>
-                {/*TODO handle logout*/}
                 <ListItemIcon>
                   <Logout fontSize='small'/>
                 </ListItemIcon>
-                Logout
+                {buttonText.logout}
               </MenuItem>
             </Menu>
           </Box>

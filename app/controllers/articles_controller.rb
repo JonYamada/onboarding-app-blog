@@ -1,6 +1,5 @@
 class ArticlesController < ApplicationController
-  layout 'hello_world'
-  helper_method :initials
+  layout 'main'
 
   def index
     @articles = { articles: Article.all }
@@ -9,7 +8,6 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
-      # TODO: redirect to show when action available
       redirect_to articles_path, status: 301
     else
       render :new, status: :unprocessable_entity

@@ -14,7 +14,6 @@ const defaultProps = {
   title: 'title',
 }
 
-
 const ListItemPreview = ({content, profileImg, title}: IListItemPreview) => (
   <List>
     <ListItem alignItems='flex-start'>

@@ -8,8 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MuiDrawer from '@mui/material/Drawer'
-import SettingsIcon from '@mui/icons-material/Settings'
-import {ARTICLES_PATH, SETTINGS_PATH} from '../../constants/routes'
+import {ARTICLES_PATH} from '../../constants/routes'
 import {CSSObject, styled, Theme} from '@mui/material/styles'
 import {CssBaseline, useTheme} from '@mui/material'
 import {ISideNavProps} from './interfaces'
@@ -23,7 +22,6 @@ const DrawerHeader = styled('div')(({theme}) =>
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }))
 
@@ -49,11 +47,6 @@ const navItems = [
     icon: <FeedOutlinedIcon/>,
     name: 'Articles',
     url: ARTICLES_PATH,
-  },
-  {
-    icon: <SettingsIcon/>,
-    name: 'Settings',
-    url: SETTINGS_PATH,
   },
 ]
 

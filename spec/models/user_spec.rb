@@ -45,16 +45,4 @@ RSpec.describe User, type: :model do
 
     end
   end
-
-  describe 'User methods' do
-    it 'should return user initials when first_name and last_name present' do
-      user = User.create(first_name: 'Joe', last_name: 'Bloggs', email: 'joe@bloggs.com')
-      expect(user.initials).to eq('JB')
-    end
-
-    it 'should return first letter of first name when last_name is absent' do
-      user = User.create(first_name: 'Joe', last_name: '', email: 'joe@bloggs.com')
-      expect(user.initials).to eq('J')
-    end
-  end
 end

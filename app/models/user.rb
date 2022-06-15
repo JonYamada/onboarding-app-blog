@@ -5,12 +5,6 @@ class User < ApplicationRecord
 
   has_many :articles, dependent: :destroy
 
-  # TODO add this to navbar avatar
-  def initials
-    return "#{first_name[0]}#{last_name[0]}".upcase if last_name.present?
-    first_name[0].upcase
-  end
-
   private
 
   def correct_email_format
