@@ -86,7 +86,7 @@ const ArticleForm = ({article, className, loading, onSubmit: onSave}: IArticleFo
               sx={{mt: 1, float: 'right'}}
               variant='contained'
             >
-              {buttonText.submit}
+              {buttonText.save}
             </LoadingButton>
           </Form>
         )}
