@@ -16,7 +16,7 @@ describe('Article Form Component', () => {
     render(<ArticleForm/>)
     contentTextarea = screen.getByRole('textbox', {name: 'aria-editor'})
     titleInput = screen.getByLabelText('Title')
-    btnSubmit = screen.getByRole('button', {name: /submit/i})
+    btnSubmit = screen.getByRole('button', {name: /save/i})
   })
 
   describe('fields', () => {
