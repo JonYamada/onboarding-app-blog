@@ -1,4 +1,3 @@
-import {IPathProps} from '../../api/interfaces'
 import {RawDraftContentState} from 'draft-js'
 
 interface IArticleForm extends Partial<IWithLoaderProps> {
@@ -12,8 +11,6 @@ interface IArticleForm extends Partial<IWithLoaderProps> {
 interface IArticles {
   articles: Array<IListItemPreview>
   className?: string
-  newPath?: string
-  routes: IPathProps
 }
 
 interface IListItemPreview {
