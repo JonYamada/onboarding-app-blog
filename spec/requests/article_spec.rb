@@ -10,9 +10,8 @@ RSpec.describe "Articles", type: :request do
       initial_article_count = Article.count
 
       post articles_path, params: { article: { title: 'Test Title', content: 'Test Content', user_id: @user.id } }
-
-      expect(response).to redirect_to(:articles)
-      expect(response).to have_http_status(301)
+      
+      expect(response).to have_http_status(200)
       expect(Article.count).eql?(initial_article_count + 1)
     end
 
