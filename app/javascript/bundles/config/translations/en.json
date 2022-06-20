@@ -10,6 +10,9 @@
       "title": "Title"
     }
   },
+  "nav": {
+    "articles": "Articles"
+  },
   "toast": {
     "errorGeneric": "Oops, something went wrong",
     "successSaved": "Saved Successfully"
