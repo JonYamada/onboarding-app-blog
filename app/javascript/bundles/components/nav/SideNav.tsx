@@ -8,14 +8,13 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MuiDrawer from '@mui/material/Drawer'
-import {ARTICLES_PATH} from '../../constants/routes'
-import {CSSObject, styled, Theme} from '@mui/material/styles'
+import {CSSObject, styled} from '@mui/material/styles'
 import {CssBaseline, useTheme} from '@mui/material'
 import {ISideNavProps} from './interfaces'
 import {LOGO} from '../../constants/images'
-import {redirectTo, toHomePage} from '../../utils/nav'
-
-const openedMixin = (theme: Theme, width: number): CSSObject => ({width, overflowX: 'hidden'})
+import {redirectTo} from '../../utils/nav'
+import {nav} from '../../config/translations/en.json'
+import {IReactContext} from '../interfaces'
 
 const DrawerHeader = styled('div')(({theme}) =>
   ({
@@ -31,38 +30,46 @@ const Logo = styled('img')(({onClick}) =>
     width: 36,
   }))
 
-const Drawer = styled(MuiDrawer)(({theme, width}: { theme: Theme, width: number }): CSSObject =>
+const Drawer = styled(MuiDrawer)(({width}: { width: number }): CSSObject =>
   ({
     width,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
-    ...openedMixin(theme, width),
-    '& .MuiDrawer-paper': openedMixin(theme, width),
+    overflowX: 'hidden',
+    '& .MuiDrawer-paper': {width, overflowX: 'hidden'},
   }),
 )
-
-const navItems = [
-  {
-    icon: <FeedOutlinedIcon/>,
-    name: 'Articles',
-    url: ARTICLES_PATH,
-  },
-]
-
-export default function SideNav({children, width}: ISideNavProps) {
+const SideNav = ({children, width}: ISideNavProps, railsContext: IReactContext) => {
   const theme = useTheme()
+
+  const ROOT_PATH = railsContext?.routes?.root
+
+  const navItems = [
+    {
+      icon: <FeedOutlinedIcon/>,
+      name: nav.articles,
+      url: railsContext?.routes?.articles?.index,
+    },
+  ]
 
   return (
     <Box sx={{marginTop: 10}}>
       <CssBaseline/>
       <Drawer width={width} variant='permanent' theme={theme}>
         <DrawerHeader>
-          <Logo src={LOGO} alt='logo' onClick={toHomePage}/>
+          <Logo
+            src={LOGO}
+            alt='logo'
+            onClick={() => {
+              if (ROOT_PATH) redirectTo(ROOT_PATH)
+            }}
+          />
         </DrawerHeader>
         <Divider/>
         <List>
           {navItems?.map(({name, icon, url}) => (
+            url &&
             <ListItem key={name} disablePadding>
               <ListItemButton onClick={() => redirectTo(url)}>
                 <ListItemIcon>{icon}</ListItemIcon>
@@ -78,3 +85,5 @@ export default function SideNav({children, width}: ISideNavProps) {
     </Box>
   )
 }
+
+export default SideNav

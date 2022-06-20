@@ -1,12 +1,13 @@
 import React from 'react'
 import ArticleForm from './common/form'
 import MainLayout from '../../layouts/MainLayout'
-import withLoader from '../../HOCs/withLoader'
 import {IArticleForm, IParams} from './interfaces'
 import {createArticle} from '../../api/articles/articles'
 import {redirectTo} from '../../utils/nav'
 import {toast as toastTranslations} from '../../config/translations/en.json'
+import {setToast} from '../../utils/toast'
 import {toast} from 'react-hot-toast'
+import {IReactContext} from '../../components/interfaces'
 
 const defaultProps = {
   className: null,
@@ -14,35 +15,33 @@ const defaultProps = {
   toggleLoading: () => {},
 }
 
-const NewArticle = ({className, loading, toggleLoading}: IArticleForm) => {
-  const handleSubmit = (values: IParams) => {
-    if (toggleLoading) toggleLoading()
-    createArticle(values)
-      .then(({request}) => {
-        redirectTo(request?.responseURL, {
-          toast: {
-            message: toastTranslations.successSaved,
-            type: 'success',
-          }
+const NewArticle = ({className, loading, toggleLoading}: IArticleForm, railsContext: IReactContext) => {
+  return () => {
+    const handleSubmit = (values: IParams) => {
+      if (toggleLoading) toggleLoading()
+      createArticle(values)
+        .then(() => {
+          redirectTo(railsContext.routes.articles.index)
+          setToast({message: toastTranslations.successSaved, type: 'success'})
         })
-      })
-      .catch(() => toast.error(toastTranslations.errorGeneric))
-      .finally(() => {
-        if (toggleLoading) toggleLoading(false)
-      })
-  }
+        .catch(() => toast.error(toastTranslations.errorGeneric))
+        .finally(() => {
+          if (toggleLoading) toggleLoading(false)
+        })
+    }
 
-  return (
-    <MainLayout>
-      <ArticleForm
-        className={`new-article ${className}`}
-        loading={loading}
-        onSubmit={handleSubmit}
-      />
-    </MainLayout>
-  )
+    return (
+      <MainLayout>
+        <ArticleForm
+          className={`new-article ${className}`}
+          loading={loading}
+          onSubmit={handleSubmit}
+        />
+      </MainLayout>
+    )
+  }
 }
 
 NewArticle.defaultProps = defaultProps
 
-export default withLoader(NewArticle)
+export default NewArticle

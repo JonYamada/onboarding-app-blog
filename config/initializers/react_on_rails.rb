@@ -1,7 +1,27 @@
+include Rails.application.routes.url_helpers
 # frozen_string_literal: true
 
 # See https://github.com/shakacode/react_on_rails/blob/master/docs/basics/configuration.md
 # for many more options.
+
+module RenderingExtension
+
+  # Return a Hash that contains custom values from the view context that will get merged with
+  # the standard rails_context values and passed to all calls to render-functions used by the
+  # react_component and redux_store view helpers
+  def self.custom_context(view_context)
+    {
+      routes: {
+        root: root_path,
+        articles: {
+          index: articles_path,
+          new: new_article_path,
+          create: articles_path
+        }
+      }
+    }
+  end
+end
 
 ReactOnRails.configure do |config|
   # This configures the script to run to build the production assets by webpacker. Set this to nil
@@ -42,4 +62,5 @@ ReactOnRails.configure do |config|
   # React components.
   #
   config.server_bundle_js_file = "server-bundle.js"
+  config.rendering_extension = RenderingExtension
 end

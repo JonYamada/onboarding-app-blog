@@ -11,12 +11,14 @@ import UseToast from '../bundles/hooks/useToast'
 import ArticleForm from '../bundles/views/articles/common/form'
 import Articles from '../bundles/views/articles/index.tsx'
 import NewArticle from '../bundles/views/articles/new.tsx'
+import SideNav from '../bundles/components/nav/SideNav.tsx'
 
 ReactOnRails.register({
   ArticleForm,
   Articles,
   ListItemPreview,
   NewArticle,
+  SideNav,
   Toaster,
   UseToast,
 })

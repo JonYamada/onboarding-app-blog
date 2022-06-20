@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import '../assets/stylesheets/forms.scss'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Logout from '@mui/icons-material/Logout'
@@ -19,7 +19,7 @@ const AVATAR_MENU = 'avatar-menu'
 const drawerWidth = 200
 
 const MainLayout = ({className, children}: IMainLayoutProps) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = !!anchorEl
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget)

@@ -1,15 +1,19 @@
+import {IPathProps} from '../../api/interfaces'
 import {RawDraftContentState} from 'draft-js'
 
 interface IArticleForm extends Partial<IWithLoaderProps> {
   article?: IParams
   className?: string
   onSubmit?(values: IParams): void
+  name?: string
+  message?: string
 }
 
 interface IArticles {
   articles: Array<IListItemPreview>
   className?: string
-  newArticlePath: string
+  newPath?: string
+  routes: IPathProps
 }
 
 interface IListItemPreview {
