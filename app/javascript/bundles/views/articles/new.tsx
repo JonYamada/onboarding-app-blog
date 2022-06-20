@@ -16,12 +16,13 @@ const defaultProps = {
 }
 
 const NewArticle = ({className, loading, toggleLoading}: IArticleForm, railsContext: IReactContext) => {
+  const {create: createPath, index: indexPath} = railsContext?.routes?.articles
   return () => {
     const handleSubmit = (values: IParams) => {
       if (toggleLoading) toggleLoading()
-      createArticle(values)
+      createArticle(createPath, values)
         .then(() => {
-          redirectTo(railsContext.routes.articles.index)
+          redirectTo(indexPath)
           setToast({message: toastTranslations.successSaved, type: 'success'})
         })
         .catch(() => toast.error(toastTranslations.errorGeneric))
