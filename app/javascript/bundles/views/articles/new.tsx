@@ -7,7 +7,7 @@ import {redirectTo} from '../../utils/nav'
 import {toast as toastTranslations} from '../../config/translations/en.json'
 import {setToast} from '../../utils/toast'
 import {toast} from 'react-hot-toast'
-import {IReactContext} from '../../components/interfaces'
+import {IRailsContext} from '../../components/interfaces'
 
 const defaultProps = {
   className: null,
@@ -15,14 +15,14 @@ const defaultProps = {
   toggleLoading: () => {},
 }
 
-const NewArticle = ({className, loading, toggleLoading}: IArticleForm, railsContext: IReactContext) => {
+const NewArticle = ({className, loading, toggleLoading}: IArticleForm, railsContext: IRailsContext) => {
   const {create: createPath, index: indexPath} = railsContext?.routes?.articles
   return () => {
     const handleSubmit = (values: IParams) => {
       if (toggleLoading) toggleLoading()
       createArticle(createPath, values)
         .then(() => {
-          redirectTo(indexPath)
+          if (indexPath) redirectTo(indexPath)
           setToast({message: toastTranslations.successSaved, type: 'success'})
         })
         .catch(() => toast.error(toastTranslations.errorGeneric))

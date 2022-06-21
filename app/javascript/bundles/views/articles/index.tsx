@@ -5,13 +5,13 @@ import {Button} from '@mui/material'
 import {IArticles} from './interfaces'
 import {buttonText} from '../../config/translations/en.json'
 import {redirectTo} from '../../utils/nav'
-import {IReactContext} from '../../components/interfaces'
+import {IRailsContext} from '../../components/interfaces'
 
 const defaultProps = {
   className: null,
 }
 
-const Articles = ({className}: IArticles, railsContext: IReactContext) => {
+const Articles = ({className}: IArticles, railsContext: IRailsContext) => {
   const newArticlePath = railsContext?.routes?.articles?.new
 
   return () => {

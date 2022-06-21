@@ -1,4 +1,4 @@
-interface IReactContext {
+interface IRailsContext {
   host: string
   href: string
   httpAcceptLanguage: string
@@ -24,4 +24,4 @@ interface IReactContext {
   serverSide: boolean
 }
 
-export {IReactContext}
+export {IRailsContext}
