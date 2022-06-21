@@ -14,7 +14,7 @@ import {ISideNavProps} from './interfaces'
 import {LOGO} from '../../constants/images'
 import {redirectTo} from '../../utils/nav'
 import {nav} from '../../config/translations/en.json'
-import {IReactContext} from '../interfaces'
+import {IRailsContext} from '../interfaces'
 
 const DrawerHeader = styled('div')(({theme}) =>
   ({
@@ -40,7 +40,7 @@ const Drawer = styled(MuiDrawer)(({width}: { width: number }): CSSObject =>
     '& .MuiDrawer-paper': {width, overflowX: 'hidden'},
   }),
 )
-const SideNav = ({children, width}: ISideNavProps, railsContext: IReactContext) => {
+const SideNav = ({children, width}: ISideNavProps, railsContext: IRailsContext) => {
   const theme = useTheme()
 
   const ROOT_PATH = railsContext?.routes?.root
