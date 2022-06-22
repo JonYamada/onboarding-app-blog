@@ -86,40 +86,57 @@ const ArticleForm = ({
           <Form>
             <Card>
               <CardContent>
-                <Box sx={{ mb: 1 }}>
-                  <label htmlFor="title">{form.label.title}</label>
-                  <Input
-                    type="text"
-                    error={!!formikErrors?.title}
-                    id="title"
-                    name="title"
-                    onChange={({ target: { value: title } }) =>
-                      setValues({ ...values, title })
-                    }
-                    sx={{ width: "100%", marginBottom: 1 }}
-                  />
-                  <ErrorMessage
-                    className="error-message"
-                    name="title"
-                    component="div"
-                  />
-                </Box>
-                <Box sx={{ mb: 1 }}>
-                  <label htmlFor="content">{form.label.content}</label>
-                  <RichTextEditor
-                    ariaLabel="aria-editor"
-                    className={`${!!formikErrors?.content && "border-invalid"}`}
-                    onChange={(html) => setValues({ ...values, content: html })}
-                    onError={({ isEmpty, message }) =>
-                      setErrors({ ...errors, content: { isEmpty, message } })
-                    }
-                  />
-                  <ErrorMessage
-                    className="error-message"
-                    name="content"
-                    component="div"
-                  />
-                </Box>
+                {[
+                  {
+                    label: form.label.title,
+                    name: "title",
+                    input: (
+                      <Input
+                        type="text"
+                        error={!!formikErrors?.title}
+                        id="title"
+                        name="title"
+                        onChange={({ target: { value: title } }) =>
+                          setValues({ ...values, title })
+                        }
+                        sx={{ width: "100%", marginBottom: 1 }}
+                      />
+                    ),
+                    error: { name: "title" },
+                  },
+                  {
+                    label: form.label.content,
+                    name: "content",
+                    input: (
+                      <RichTextEditor
+                        ariaLabel="aria-editor"
+                        className={`${
+                          !!formikErrors?.content && "border-invalid"
+                        }`}
+                        onChange={(html) =>
+                          setValues({ ...values, content: html })
+                        }
+                        onError={({ isEmpty, message }) =>
+                          setErrors({
+                            ...errors,
+                            content: { isEmpty, message },
+                          })
+                        }
+                      />
+                    ),
+                    error: { name: "content" },
+                  },
+                ].map(({ label, name, input, error }) => (
+                  <Box sx={{ mb: 1 }}>
+                    <label htmlFor={name}>{label}</label>
+                    {input}
+                    <ErrorMessage
+                      className="error-message"
+                      name={name}
+                      component="div"
+                    />
+                  </Box>
+                ))}
               </CardContent>
             </Card>
 
