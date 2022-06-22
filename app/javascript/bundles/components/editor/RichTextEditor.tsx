@@ -16,7 +16,6 @@ interface IRichTextEditorProps {
   className?: string
   onChange: (htmlContent: string) => void
   onError: (errors: { isEmpty: boolean, message: string }) => void
-  rest?: EditorProps,
 }
 
 const RichTextEditor = ({className, onChange, onError, ...rest}: IRichTextEditorProps & EditorProps): JSX.Element => {
