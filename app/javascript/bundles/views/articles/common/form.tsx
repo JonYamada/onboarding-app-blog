@@ -56,7 +56,7 @@ const ArticleForm = ({
       },
     ];
 
-    validations.forEach(({ name, isInvalid, message }) => {
+    validations.forEach(({ name, message, isInvalid }) => {
       if (isInvalid) {
         setErrors({
           ...errors,
@@ -110,9 +110,9 @@ const ArticleForm = ({
                     input: (
                       <RichTextEditor
                         ariaLabel="aria-editor"
-                        className={`${
-                          !!formikErrors?.content && "border-invalid"
-                        }`}
+                        className={
+                          (!!formikErrors?.content && "border-invalid") || ""
+                        }
                         onChange={(html) =>
                           setValues({ ...values, content: html })
                         }
@@ -127,7 +127,7 @@ const ArticleForm = ({
                     error: { name: "content" },
                   },
                 ].map(({ label, name, input, error }) => (
-                  <Box sx={{ mb: 1 }}>
+                  <Box sx={{ mb: 1 }} key={name}>
                     <label htmlFor={name}>{label}</label>
                     {input}
                     <ErrorMessage
