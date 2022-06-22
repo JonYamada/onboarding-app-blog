@@ -7,21 +7,23 @@ interface IRailsContext {
   inMailer: boolean
   location: string
   pathname: string
-  port: 3000
+  port: number
   railsEnv: string
   rorPro: boolean
   rorVersion: string
-  routes: {
-    root: string,
-    articles: {
-      index: string
-      new: string
-      create: string
-    }
-  }
+  routes: IRoutes
   scheme: string
-  search: null
+  search: string
   serverSide: boolean
 }
 
-export {IRailsContext}
+interface IRoutes {
+  root: string,
+  articles: {
+    index: string
+    new: string
+    create: string
+  }
+}
+
+export {IRailsContext, IRoutes}
