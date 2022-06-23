@@ -18,7 +18,10 @@
     "successSaved": "Saved Successfully"
   },
   "validations": {
+    "enterValidEmail": "Enter a valid email",
+    "requireEmail": "Email is required",
     "requiredContent": "Content Required",
+    "requiredPassword": "Password is Required",
     "requiredTitle": "Title Required"
   }
 }
