@@ -1,10 +1,30 @@
+include Rails.application.routes.url_helpers
 # frozen_string_literal: true
 
 # See https://github.com/shakacode/react_on_rails/blob/master/docs/basics/configuration.md
 # for many more options.
 
+module RenderingExtension
+
+  # Return a Hash that contains custom values from the view context that will get merged with
+  # the standard rails_context values and passed to all calls to render-functions used by the
+  # react_component and redux_store view helpers
+  def self.custom_context(view_context)
+    {
+      routes: {
+        root: root_path,
+        articles: {
+          index: articles_path,
+          new: new_article_path,
+          create: articles_path
+        }
+      }
+    }
+  end
+end
+
 ReactOnRails.configure do |config|
-  # This configures the script to run to build the production assets by webpack. Set this to nil
+  # This configures the script to run to build the production assets by webpacker. Set this to nil
   # if you don't want react_on_rails building this file for you.
   # If nil, then the standard shakacode/shakapacker assets:precompile will run
   # config.build_production_command = nil
@@ -21,11 +41,11 @@ ReactOnRails.configure do |config|
   # ReactOnRails::TestHelper.configure_rspec_to_compile_assets(config)
   #
   # with rspec then this controls what yarn command is run
-  # to automatically refresh your webpack assets on every test run.
+  # to automatically refresh your webpacker assets on every test run.
   #
   # Alternately, you can remove the `ReactOnRails::TestHelper.configure_rspec_to_compile_assets`
   # and set the config/webpacker.yml option for test to true.
-  config.build_test_command = "RAILS_ENV=test bin/webpacker"
+  config.build_test_command = "RAILS_ENV=test bin/webpack"
 
   ################################################################################
   ################################################################################
@@ -42,4 +62,5 @@ ReactOnRails.configure do |config|
   # React components.
   #
   config.server_bundle_js_file = "server-bundle.js"
+  config.rendering_extension = RenderingExtension
 end

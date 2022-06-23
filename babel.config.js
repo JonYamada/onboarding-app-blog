@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function (api) {
   var validEnv = ['development', 'test', 'production']
   var currentEnv = api.env()
   var isDevelopmentEnv = api.env('development')
@@ -8,42 +8,27 @@ module.exports = function(api) {
   if (!validEnv.includes(currentEnv)) {
     throw new Error(
       'Please specify a valid `NODE_ENV` or ' +
-        '`BABEL_ENV` environment variables. Valid values are "development", ' +
-        '"test", and "production". Instead, received: ' +
-        JSON.stringify(currentEnv) +
-        '.'
+      '`BABEL_ENV` environment variables. Valid values are "development", ' +
+      '"test", and "production". Instead, received: ' +
+      JSON.stringify(currentEnv) +
+      '.',
     )
   }
 
   return {
     presets: [
-      isTestEnv && [
+      ...isTestEnv ? [[
         '@babel/preset-env',
         {
-          targets: {
-            node: 'current'
-          },
-          modules: 'commonjs'
+          targets: {'node': 'current'},
         },
-        '@babel/preset-react'
       ],
-      (isProductionEnv || isDevelopmentEnv) && [
-        '@babel/preset-env',
-        {
-          forceAllTransforms: true,
-          useBuiltIns: 'entry',
-          corejs: 3,
-          modules: false,
-          exclude: ['transform-typeof-symbol']
-        }
-      ],
-      [
         '@babel/preset-react',
-        {
-          development: isDevelopmentEnv || isTestEnv,
-          useBuiltIns: true
-        }
-      ]
+        '@babel/preset-typescript',
+      ] : [],
+      ...(isProductionEnv || isDevelopmentEnv) ? [
+        '@babel/preset-typescript',
+      ] : [],
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
@@ -53,47 +38,39 @@ module.exports = function(api) {
       [
         '@babel/plugin-proposal-class-properties',
         {
-          loose: true
-        }
+          loose: true,
+        },
       ],
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
-          useBuiltIns: true
-        }
+          useBuiltIns: true,
+        },
       ],
       [
         '@babel/plugin-proposal-private-methods',
         {
-          loose: true
-        }
+          loose: true,
+        },
       ],
       [
         '@babel/plugin-proposal-private-property-in-object',
         {
-          loose: true
-        }
+          loose: true,
+        },
       ],
       [
         '@babel/plugin-transform-runtime',
         {
           helpers: false,
-          regenerator: true,
-          corejs: false
-        }
+        },
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
-          async: false
-        }
+          async: false,
+        },
       ],
-      isProductionEnv && [
-        'babel-plugin-transform-react-remove-prop-types',
-        {
-          removeImport: true
-        }
-      ]
-    ].filter(Boolean)
+    ].filter(Boolean),
   }
 }

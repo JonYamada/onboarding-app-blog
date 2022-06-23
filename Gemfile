@@ -31,6 +31,7 @@ gem 'webpacker'
 gem 'msgpack'
 gem 'nokogiri', '~>1.13.4'
 
+gem 'shakapacker', '= 6.3'
 # Use Sass to process CSS
 # gem 'sassc-rails'
 
@@ -58,5 +59,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'rspec-rails', '~> 5.0.0'
+  gem 'factory_bot_rails'
+  gem 'guard'
+  gem 'guard-rspec', require: false
 end
-

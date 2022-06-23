@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Blog</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Jon's Onboarding Project</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_pack_tag 'app-bundle' %>
+  <%= javascript_pack_tag 'app-bundle' %>
+</head>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  </head>
+<body>
+<%= react_component('Toaster', trace: false) %>
+<%= react_component('UseToast', trace: false) %>
+<%= react_component('RoutesConnector', trace: false) %>
 
-  <body>
-    <%= yield %>
-  </body>
+<%= yield %>
+</body>
 </html>
