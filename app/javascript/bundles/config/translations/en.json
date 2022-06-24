@@ -14,6 +14,7 @@
     "articles": "Articles"
   },
   "toast": {
+    "accountCreated": "You account was created. Welcome aboard!",
     "errorGeneric": "Oops, something went wrong",
     "successSaved": "Saved Successfully"
   },
