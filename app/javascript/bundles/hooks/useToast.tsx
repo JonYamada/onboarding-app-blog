@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react'
-import {toast} from 'react-hot-toast'
-import {TOAST} from '../utils/toast'
+import React, { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { TOAST } from "../utils/toast";
 
 const useToast = () => {
   useEffect(() => {
     if (TOAST.MESSAGE in sessionStorage) {
-      toast.success(sessionStorage.getItem(TOAST.MESSAGE))
-      sessionStorage.removeItem(TOAST.MESSAGE)
-      sessionStorage.removeItem(TOAST.TYPE)
+      toast.success(sessionStorage.getItem(TOAST.MESSAGE), { duration: 4000 });
+      sessionStorage.removeItem(TOAST.MESSAGE);
+      sessionStorage.removeItem(TOAST.TYPE);
     }
-  }, [window.location.href])
-}
+  }, [window.location.href]);
+};
 
-export default useToast
+export default useToast;
