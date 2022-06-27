@@ -1,117 +1,197 @@
-import React from "react";
-import * as yup from "yup";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { buttonText, validations } from "../../config/translations/en.json";
+import React, { useState } from "react";
+import {
+  buttonText,
+  toast as toastTranslations,
+} from "../../config/translations/en.json";
 import { getRoutes } from "../../utils/routes";
 import { redirectTo } from "../../utils/nav";
 import { register } from "../../api/auth/auth";
-import { toast as toastTranslations } from "../../config/translations/en.json";
 import { toast } from "react-hot-toast";
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { setToast } from "../../utils/toast";
-import { IParams } from "./interfaces";
+import { IParams, IRegisterProps } from "./interfaces";
+import LoadingButton from "@mui/lab/LoadingButton";
+import withLoader from "../../HOCs/withLoader";
+import { IWithLoaderProps } from "../articles/interfaces";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import { Input } from "@mui/material";
 
 const defaultProps = {
-  className: null,
+  loading: false,
+  toggleLoading: () => {},
 };
 
-interface IRegister {
-  className?: string;
+interface IErrors {
+  [name: string]: {
+    message?: string;
+  };
 }
-
-const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email(validations.enterValidEmail)
-    .required(validations.requireEmail),
-  password: yup.string().required(validations.requiredPassword),
-});
 
 const routes = getRoutes();
 
-const Register = ({ className }: IRegister) => {
-  const onSubmit = (values: IParams) => {
+const Register = ({
+  loading,
+  toggleLoading,
+}: IRegisterProps & IWithLoaderProps) => {
+  const [values, setValues] = useState<IParams>({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<IErrors>({
+    first_name: { message: "" },
+    last_name: { message: "" },
+    email: { message: "" },
+    password: { message: "" },
+  });
+
+  const submit = () => {
+    toggleLoading(true);
     register(values)
-      .then(({ data: { first_name } }) => {
+      .then(() => {
         setToast({
           message: toastTranslations.accountCreated,
           type: "success",
         });
         redirectTo(routes.articles.index);
       })
-      .catch(() => {
-        toast.error(toastTranslations.errorGeneric);
+      .catch(
+        ({
+          response: {
+            data: { errors: resErrors },
+          },
+        }) => {
+          if (resErrors) {
+            let newErrors = {};
+            Object.keys(resErrors).forEach((key) => {
+              newErrors = {
+                ...newErrors,
+                ...{
+                  [key]: {
+                    message: resErrors[key]?.join(". "),
+                  },
+                },
+              };
+            });
+
+            setErrors(newErrors);
+          } else {
+            toast.error(toastTranslations.errorGeneric);
+          }
+        }
+      )
+      .finally(() => {
+        toggleLoading(false);
       });
   };
 
-  const formik = useFormik({
-    initialValues: {
-      first_name: "Jonathon",
-      last_name: "Yamada",
-      email: "jonathon.yamada@wpengine.com",
-      // email: `jonathon.yamada+${Math.random()}@wpengine.com`,
-      password: "password",
-    },
-    validationSchema,
-    onSubmit,
-  });
-
   return (
-    <form onSubmit={formik.handleSubmit} className={className}>
-      {[
-        {
-          id: "first-name",
-          name: "first-name",
-          error: formik.touched.first_name && !!formik.errors.first_name,
-          fullWidth: true,
-          helperText: formik.touched.first_name && formik.errors.first_name,
-          label: "first-name",
-          onChange: formik.handleChange,
-          value: formik.values.first_name,
-        },
-        {
-          id: "last-name",
-          name: "last-name",
-          error: formik.touched.last_name && !!formik.errors.last_name,
-          fullWidth: true,
-          helperText: formik.touched.last_name && formik.errors.last_name,
-          label: "last-name",
-          onChange: formik.handleChange,
-          value: formik.values.last_name,
-        },
-        {
-          id: "email",
-          name: "email",
-          error: formik.touched.email && !!formik.errors.email,
-          fullWidth: true,
-          helperText: formik.touched.email && formik.errors.email,
-          label: "Email",
-          onChange: formik.handleChange,
-          value: formik.values.email,
-        },
-        {
-          id: "password",
-          name: "password",
-          error: formik.touched.password && !!formik.errors.password,
-          fullWidth: true,
-          helperText: "",
-          label: "Password",
-          onChange: formik.handleChange,
-          type: "password",
-          value: formik.values.password,
-        },
-      ].map((props) => (
-        <TextField {...props} key={props.name || props.id} />
-      ))}
-
-      <Button color="primary" variant="contained" fullWidth type="submit">
-        {buttonText.save}
-      </Button>
-    </form>
+    <Formik
+      initialValues={{
+        first_name: "",
+        last_name: "",
+        email: "",
+        password: "",
+      }}
+      onSubmit={submit}
+      isInitialValid
+    >
+      {() => (
+        <Form>
+          <Card>
+            <CardContent>
+              {[
+                {
+                  id: "first-name",
+                  name: "first_name",
+                  error: !!errors?.first_name?.message,
+                  fullWidth: true,
+                  label: "first name",
+                  onChange: (event: Event) => {
+                    setValues({
+                      ...values,
+                      first_name:
+                        (event?.target as HTMLInputElement).value || "",
+                    });
+                  },
+                  value: values.first_name,
+                },
+                {
+                  id: "last-name",
+                  name: "last_name",
+                  error: !!errors?.last_name?.message,
+                  fullWidth: true,
+                  label: "last name",
+                  onChange: (event: Event) => {
+                    setValues({
+                      ...values,
+                      last_name:
+                        (event?.target as HTMLInputElement).value || "",
+                    });
+                  },
+                  value: values.last_name,
+                },
+                {
+                  id: "email",
+                  name: "email",
+                  error: !!errors?.email?.message,
+                  fullWidth: true,
+                  label: "Email",
+                  onChange: (event: Event) => {
+                    setValues({
+                      ...values,
+                      email: (event?.target as HTMLInputElement).value || "",
+                    });
+                  },
+                  value: values.email,
+                },
+                {
+                  id: "password",
+                  name: "password",
+                  error: !!errors?.password?.message,
+                  fullWidth: true,
+                  label: "Password",
+                  onChange: (event: Event) => {
+                    setValues({
+                      ...values,
+                      password: (event?.target as HTMLInputElement).value || "",
+                    });
+                  },
+                  type: "password",
+                  value: values.password,
+                },
+              ].map(({ label, ...rest }) => (
+                <div key={rest.name}>
+                  <label htmlFor={rest?.name}>{label}</label>
+                  {/*//@ts-ignore*/}
+                  <Input {...rest} />
+                  {!!errors[rest?.name]?.message && (
+                    <div className="error-message">
+                      {errors[rest.name].message}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+          <LoadingButton
+            type="submit"
+            loading={loading}
+            loadingPosition="center"
+            sx={{ mt: 1, float: "right" }}
+            variant="contained"
+          >
+            {buttonText.save}
+          </LoadingButton>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
 Register.defaultProps = defaultProps;
 
-export default Register;
+export default withLoader(Register);
