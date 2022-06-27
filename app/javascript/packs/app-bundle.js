@@ -14,11 +14,13 @@ import NewArticle from "../bundles/views/articles/new";
 import Register from "../bundles/views/auth/Register";
 import SideNav from "../bundles/components/nav/SideNav";
 
-import { RoutesConnector } from "../bundles/utils/routes";
+import { RoutesConnector } from "../bundles/utils/RoutesConnector";
+import { AuthConnector } from "../bundles/utils/AuthConnector";
 
 ReactOnRails.register({
   ArticleForm,
   Articles,
+  AuthConnector,
   ListItemPreview,
   NewArticle,
   Register,
