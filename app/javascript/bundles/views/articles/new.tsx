@@ -8,6 +8,7 @@ import { toast as toastTranslations } from "../../config/translations/en.json";
 import { setToast } from "../../utils/toast";
 import { toast } from "react-hot-toast";
 import { IRailsContext } from "../../components/interfaces";
+import {getCurrentUser} from '../../utils/AuthConnector'
 
 const defaultProps = {
   className: null,
@@ -23,7 +24,7 @@ const NewArticle = (
   return () => {
     const handleSubmit = (values: IParams) => {
       if (toggleLoading) toggleLoading();
-      createArticle(values)
+      createArticle(getCurrentUser().id, values)
         .then(() => {
           if (indexPath) redirectTo(indexPath);
           setToast({
