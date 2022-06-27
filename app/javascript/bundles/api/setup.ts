@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getRoutes } from "../utils/routes";
+import { getRoutes } from "../utils/RoutesConnector";
 
 export const client = axios.create({
   timeout: 1000,

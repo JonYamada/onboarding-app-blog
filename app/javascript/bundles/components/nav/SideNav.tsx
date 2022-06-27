@@ -14,7 +14,7 @@ import { ISideNavProps } from "./interfaces";
 import { LOGO } from "../../constants/images";
 import { redirectTo } from "../../utils/nav";
 import { nav } from "../../config/translations/en.json";
-import { getRoutes } from "../../utils/routes";
+import { getRoutes } from "../../utils/RoutesConnector";
 import { IRoutes } from "../interfaces";
 
 const DrawerHeader = styled("div")(({ theme }) => ({

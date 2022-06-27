@@ -3,7 +3,7 @@ import {
   buttonText,
   toast as toastTranslations,
 } from "../../config/translations/en.json";
-import { getRoutes } from "../../utils/routes";
+import { getRoutes } from "../../utils/RoutesConnector";
 import { redirectTo } from "../../utils/nav";
 import { register } from "../../api/auth/auth";
 import { toast } from "react-hot-toast";
