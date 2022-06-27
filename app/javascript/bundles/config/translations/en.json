@@ -2,7 +2,8 @@
   "buttonText": {
     "logout": "Logout",
     "newArticle": "New Article",
-    "save": "Save"
+    "save": "Save",
+    "submit": "Submit"
   },
   "form": {
     "label": {

@@ -182,7 +182,7 @@ const Register = ({
             sx={{ mt: 1, float: "right" }}
             variant="contained"
           >
-            {buttonText.save}
+            {buttonText.submit}
           </LoadingButton>
         </Form>
       )}
