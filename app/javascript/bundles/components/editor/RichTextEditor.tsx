@@ -45,7 +45,7 @@ const RichTextEditor = ({className, onChange, onError, ...rest}: IRichTextEditor
     setErrors({
       ...errors,
       isEmpty,
-      message: isEmpty ? translations.validations.requiredContent : '',
+      message: isEmpty ? translations.validations.requireContent : '',
     })
   }
 

@@ -21,8 +21,10 @@
   "validations": {
     "enterValidEmail": "Enter a valid email",
     "requireEmail": "Email is required",
-    "requiredContent": "Content Required",
-    "requiredPassword": "Password is Required",
+    "requireContent": "Content Required",
+    "requireFirstName": "First Name is Required",
+    "requireLastName": "Last Name is Required",
+    "requirePassword": "Password is Required",
     "requiredTitle": "Title Required"
   }
 }
