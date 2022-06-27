@@ -164,14 +164,12 @@ const Register = ({
                   type: "password",
                   value: values.password,
                 },
-              ].map(({ label, ...rest }) => (
-                <div key={rest.name}>
-                  <label htmlFor={rest?.name}>{label}</label>
+              ].map(({ label, name, ...rest }) => (
+                <div key={name}>
+                  <label htmlFor={name}>{label}</label>
                   <Input {...rest} />
-                  {!!errors[rest?.name]?.message && (
-                    <div className="error-message">
-                      {errors[rest.name].message}
-                    </div>
+                  {!!errors[name]?.message && (
+                    <div className="error-message">{errors[name].message}</div>
                   )}
                 </div>
               ))}
