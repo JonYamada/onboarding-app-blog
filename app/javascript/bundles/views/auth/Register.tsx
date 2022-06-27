@@ -34,12 +34,14 @@ const Register = ({
   loading,
   toggleLoading,
 }: IRegisterProps & IWithLoaderProps) => {
-  const [values, setValues] = useState<IParams>({
+  const initialValues = {
     first_name: "",
     last_name: "",
     email: "",
     password: "",
-  });
+  };
+
+  const [values, setValues] = useState<IParams>(initialValues);
 
   const [errors, setErrors] = useState<IErrors>({
     first_name: { message: "" },
@@ -89,16 +91,7 @@ const Register = ({
   };
 
   return (
-    <Formik
-      initialValues={{
-        first_name: "",
-        last_name: "",
-        email: "",
-        password: "",
-      }}
-      onSubmit={submit}
-      isInitialValid
-    >
+    <Formik initialValues={initialValues} onSubmit={submit} isInitialValid>
       {() => (
         <Form>
           <Card>
