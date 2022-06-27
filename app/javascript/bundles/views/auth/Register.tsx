@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
   buttonText,
   toast as toastTranslations,
@@ -110,7 +110,9 @@ const Register = ({
                   error: !!errors?.first_name?.message,
                   fullWidth: true,
                   label: "first name",
-                  onChange: (event: Event) => {
+                  onChange: (
+                    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+                  ) => {
                     setValues({
                       ...values,
                       first_name:
@@ -125,7 +127,9 @@ const Register = ({
                   error: !!errors?.last_name?.message,
                   fullWidth: true,
                   label: "last name",
-                  onChange: (event: Event) => {
+                  onChange: (
+                    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+                  ) => {
                     setValues({
                       ...values,
                       last_name:
@@ -140,7 +144,9 @@ const Register = ({
                   error: !!errors?.email?.message,
                   fullWidth: true,
                   label: "Email",
-                  onChange: (event: Event) => {
+                  onChange: (
+                    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+                  ) => {
                     setValues({
                       ...values,
                       email: (event?.target as HTMLInputElement).value || "",
@@ -154,7 +160,9 @@ const Register = ({
                   error: !!errors?.password?.message,
                   fullWidth: true,
                   label: "Password",
-                  onChange: (event: Event) => {
+                  onChange: (
+                    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+                  ) => {
                     setValues({
                       ...values,
                       password: (event?.target as HTMLInputElement).value || "",
@@ -166,7 +174,6 @@ const Register = ({
               ].map(({ label, ...rest }) => (
                 <div key={rest.name}>
                   <label htmlFor={rest?.name}>{label}</label>
-                  {/*//@ts-ignore*/}
                   <Input {...rest} />
                   {!!errors[rest?.name]?.message && (
                     <div className="error-message">
