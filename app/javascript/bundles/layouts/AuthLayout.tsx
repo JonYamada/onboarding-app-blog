@@ -23,12 +23,11 @@ const AuthLayout = ({ className, children }: IAuthLayoutProps) => {
       }}
     >
       <Grid item xs={12} sm={6}>
-        <Box>
-          <img
-            src="https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ"
-            width="100%"
-          />
-        </Box>
+        <Box
+          component="img"
+          src="https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ"
+          width="100%"
+        />
       </Grid>
       <Grid item xs={12} sm={6}>
         {children}
