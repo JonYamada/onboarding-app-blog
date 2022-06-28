@@ -40,12 +40,13 @@ describe("Register Form Component", () => {
   });
 
   describe("Validations", () => {
-    const firstNameValidationMessage = "First Name Required";
-    const lastNameValidationMessage = "Last Name Required";
-    const emailValidationMessage = "Email Required";
-    const emailUniqueValidationMessage = "Email has been taken";
-    const emailFormatValidationMessage = "Ensure email has correct format";
-    const passwordValidationMessage = "Password Required";
+    const firstNameValidationMessage = "can't be blank";
+    const lastNameValidationMessage = "can't be blank";
+    const emailValidationMessage =
+      "can't be blank. Ensure you enter a valid email";
+    const emailUniqueValidationMessage = "has already been taken";
+    const emailFormatValidationMessage = "Ensure you enter a valid email";
+    const passwordValidationMessage = "can't be blank";
 
     const queryTitleValidationMessage = () =>
       screen.queryByText(firstNameValidationMessage);
