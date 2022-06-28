@@ -2,7 +2,8 @@
   "buttonText": {
     "logout": "Logout",
     "newArticle": "New Article",
-    "save": "Save"
+    "save": "Save",
+    "submit": "Submit"
   },
   "form": {
     "label": {
@@ -10,15 +11,24 @@
       "title": "Title"
     }
   },
+  "headings": {
+    "signUp": "Sign Up"
+  },
   "nav": {
     "articles": "Articles"
   },
   "toast": {
+    "accountCreated": "You account was created. Welcome aboard!",
     "errorGeneric": "Oops, something went wrong",
     "successSaved": "Saved Successfully"
   },
   "validations": {
-    "requiredContent": "Content Required",
+    "enterValidEmail": "Enter a valid email",
+    "requireEmail": "Email is required",
+    "requireContent": "Content Required",
+    "requireFirstName": "First Name is Required",
+    "requireLastName": "Last Name is Required",
+    "requirePassword": "Password is Required",
     "requiredTitle": "Title Required"
   }
 }

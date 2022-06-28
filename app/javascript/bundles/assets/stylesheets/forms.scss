@@ -7,14 +7,15 @@ form {
     font-weight: bold;
     padding-bottom: 5px;
     text-transform: uppercase;
+    padding-top: 15px;
   }
 
   .rdw-editor-main {
     border: 1px solid $input-border-color;
   }
-    
+
   .error-message {
-    color: $invalid-color !important
+    color: $invalid-color !important;
   }
 
   .border-invalid {

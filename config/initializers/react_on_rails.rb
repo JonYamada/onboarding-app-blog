@@ -17,6 +17,10 @@ module RenderingExtension
           index: articles_path,
           new: new_article_path,
           create: articles_path
+        },
+        users: {
+          new: register_path,
+          create: register_path,
         }
       }
     }

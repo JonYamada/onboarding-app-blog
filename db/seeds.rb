@@ -1,5 +1,5 @@
 p 'Seeding Users...'
-User.find_or_create_by!(first_name: 'jon', last_name: 'yams', email: 'jonathon.yamada@wpengine.com')
+User.find_or_create_by!(first_name: 'jon', last_name: 'yams', email: 'jonathon.yamada@wpengine.com', password_digest: 'password')
 
 p 'Seeding Articles...'
 20.times do |index|

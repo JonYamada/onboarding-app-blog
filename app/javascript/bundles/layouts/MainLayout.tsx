@@ -18,6 +18,7 @@ import { IMainLayoutProps } from "./interfaces";
 import { styled } from "@mui/material/styles";
 import { theme } from "../config/theme/theme";
 import { buttonText } from "../config/translations/en.json";
+import { isLoggedIn } from "../utils/AuthConnector";
 
 const defaultProps = {
   className: null,
@@ -43,40 +44,44 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
 
   const renderTopNavItems = () => {
     const items = [
-      {
-        key: "profile",
-        content: (
-          <Box sx={{ marginLeft: "auto" }} key="profile">
-            <IconButton
-              aria-controls={open ? AVATAR_MENU : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleClick}
-              size="small"
-              sx={{ ml: 2 }}
-            >
-              <Avatar
-                alt="user avatar"
-                src="https://picsum.photos/200/300?random=1"
-              />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              id={AVATAR_MENU}
-              onClick={handleClose}
-              onClose={handleClose}
-              open={open}
-            >
-              <MenuItem>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                {buttonText.logout}
-              </MenuItem>
-            </Menu>
-          </Box>
-        ),
-      },
+      ...(isLoggedIn()
+        ? [
+            {
+              key: "profile",
+              content: (
+                <Box sx={{ marginLeft: "auto" }} key="profile">
+                  <IconButton
+                    aria-controls={open ? AVATAR_MENU : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                  >
+                    <Avatar
+                      alt="user avatar"
+                      src="https://picsum.photos/200/300?random=1"
+                    />
+                  </IconButton>
+                  <Menu
+                    anchorEl={anchorEl}
+                    id={AVATAR_MENU}
+                    onClick={handleClose}
+                    onClose={handleClose}
+                    open={open}
+                  >
+                    <MenuItem>
+                      <ListItemIcon>
+                        <Logout fontSize="small" />
+                      </ListItemIcon>
+                      {buttonText.logout}
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              ),
+            },
+          ]
+        : []),
     ];
 
     return items.map(({ content }) => content);

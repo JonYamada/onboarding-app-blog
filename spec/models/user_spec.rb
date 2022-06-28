@@ -5,29 +5,37 @@ RSpec.describe User, type: :model do
     User.destroy_all
   end
 
-  describe 'Validations' do
+  describe 'Validation' do
+    before(:all) do
+      @user_no_first_name = User.create(first_name: '', last_name: 'McLast', email: 'user@email.com', password_digest: 'password')
+      @user_no_last_name = User.create(first_name: 'first name', last_name: '', email: 'user@email.com', password_digest: 'password')
+      @user_no_email = User.create(first_name: 'first name', last_name: 'McLast', email: '', password_digest: 'password')
+      @user_no_password = User.new(first_name: 'first name', last_name: 'McLast', email: 'user@email.com', password_digest: '')
+    end
+
     it 'should have a required first_name field' do
-      user = User.create(first_name: '', last_name: 'McLast', email: 'user@email.com')
-      expect_validation_thrown(user, :first_name)
+      expect_validation_thrown(@user_no_first_name, :first_name)
+    end
+
+    it 'should have a required last_name field' do
+      expect_validation_thrown(@user_no_last_name, :last_name)
     end
 
     it 'should have a required email field' do
-      user = User.create(first_name: 'first name', last_name: 'McLast', email: '')
-      expect_validation_thrown(user, :email)
+      expect_validation_thrown(@user_no_email, :email)
     end
 
-    it 'should not have a required last_name field' do
-      user = User.new(first_name: 'first name', last_name: '', email: 'user@email.com')
-      expect_successfully_saved(user)
+    it 'should have a required password field' do
+      expect_validation_thrown(@user_no_password, :password_digest)
     end
 
     it 'should only accept a unique email' do
-      email = 'user@unique.com'
+      user_params = { first_name: 'first name', last_name: 'McLast', email: 'user@unique.com', password_digest: 'password' }
 
-      user = User.new(first_name: 'first name', last_name: '', email: email)
+      user = User.new(user_params)
       expect_successfully_saved(user)
 
-      user = User.create(first_name: 'first name', last_name: '', email: email)
+      user = User.new(user_params)
       expect_validation_thrown(user, :email, { error_message: 'has already been taken' })
     end
 
@@ -35,11 +43,11 @@ RSpec.describe User, type: :model do
       valid_format = 'user@email.com'
       invalid_formats = ['invalid format', '@email.com', 'name@']
 
-      user = User.new(first_name: 'first name', last_name: '', email: valid_format)
+      user = User.new(first_name: 'first name', last_name: 'Mc Last', email: valid_format, password_digest: 'password')
       expect_successfully_saved(user)
 
       invalid_formats.each do |invalid_format|
-        user = User.create(first_name: 'first name', last_name: '', email: invalid_format)
+        user = User.create(first_name: 'first name', last_name: 'McLast', email: invalid_format, password_digest: 'password')
         expect_validation_thrown(user, :email, { error_message: 'Ensure you enter a valid email' })
       end
 

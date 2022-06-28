@@ -96,7 +96,7 @@ RSpec.configure do |config|
 =end
 
   config.before(:all) do
-    @user ||= User.find_or_create_by!(first_name: 'jon', last_name: 'yams', email: 'jonathon.yamada@wpengine.com')
+    @user ||= User.find_or_create_by!(first_name: 'jon', last_name: 'yams', email: 'jonathon.yamada@wpengine.com', password_digest: 'password')
   end
 
   config.after(:all) do

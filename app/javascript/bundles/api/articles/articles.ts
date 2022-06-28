@@ -1,11 +1,12 @@
-import {IParams} from '../../views/articles/interfaces'
-import {client} from '../setup'
+import {IParams} from "../../views/articles/interfaces"
+import {client, routes} from "../setup"
 
-export const createArticle = (path: string, params: IParams) => {
-  params.user_id = 1
-  return new Promise(((resolve, reject) => {
-    client.post(path, {article: params})
+export const createArticle = (id: number, params: IParams) => {
+  params.user_id = id;
+  return new Promise((resolve, reject) => {
+    client
+      .post(routes.articles.create, { article: params })
       .then(resolve)
-      .catch(reject)
-  }))
-}
+      .catch(reject);
+  });
+};
