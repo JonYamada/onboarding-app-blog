@@ -1,6 +1,6 @@
 import React from "react"
 import "@testing-library/jest-dom"
-import {fireEvent, render, screen,} from "@testing-library/react"
+import {render, screen} from "@testing-library/react"
 import Register from "../Register"
 
 describe("Register Form Component", () => {
@@ -9,16 +9,6 @@ describe("Register Form Component", () => {
   let emailInput: HTMLElement;
   let passwordInput: HTMLElement;
   let btnSubmit: HTMLElement;
-
-  const populateFirstNameField = (value: string = "Bob") =>
-    fireEvent.input(firstNameInput, { target: { value } });
-  const populateLastNameField = (value: string = "McLast") =>
-    fireEvent.input(lastNameInput, { target: { value } });
-  const populateEmailField = (value: string = "bob@example.com") =>
-    fireEvent.input(emailInput, { target: { value } });
-  const populatePasswordField = (value: string = "my secret") =>
-    fireEvent.input(passwordInput, { target: { value } });
-  const clickSubmit = () => fireEvent.click(btnSubmit);
 
   beforeEach(() => {
     render(<Register />);
@@ -37,48 +27,5 @@ describe("Register Form Component", () => {
       expect(fields).toHaveLength(4);
       fields.forEach((field) => expect(field).toBeInTheDocument());
     });
-  });
-
-  describe("Validations", () => {
-    const firstNameValidationMessage = "can't be blank";
-    const lastNameValidationMessage = "can't be blank";
-    const emailValidationMessage =
-      "can't be blank. Ensure you enter a valid email";
-    const emailUniqueValidationMessage = "has already been taken";
-    const emailFormatValidationMessage = "Ensure you enter a valid email";
-    const passwordValidationMessage = "can't be blank";
-
-    const queryTitleValidationMessage = () =>
-      screen.queryByText(firstNameValidationMessage);
-    const queryLastValidationMessage = () =>
-      screen.queryByText(lastNameValidationMessage);
-    const queryEmailValidationMessage = () =>
-      screen.queryByText(emailValidationMessage);
-    const queryEmailUniqueValidationMessage = () =>
-      screen.queryByText(emailUniqueValidationMessage);
-    const queryEmailFormatValidationMessage = () =>
-      screen.queryByText(emailFormatValidationMessage);
-    const queryPasswordValidationMessage = () =>
-      screen.queryByText(passwordValidationMessage);
-
-    const findTitleValidationMessage = () =>
-      screen.findByText(firstNameValidationMessage);
-    const findLastValidationMessage = () =>
-      screen.findByText(lastNameValidationMessage);
-    const findEmailValidationMessage = () =>
-      screen.findByText(emailValidationMessage);
-    const findEmailUniqueValidationMessage = () =>
-      screen.findByText(emailUniqueValidationMessage);
-    const findEmailFormatValidationMessage = () =>
-      screen.findByText(emailFormatValidationMessage);
-    const findPasswordValidationMessage = () =>
-      screen.findByText(passwordValidationMessage);
-
-    it("expects first name validation thrown if absent", () => {});
-    it("expects last name validation thrown if absent", () => {});
-    it("expects email validation thrown if absent", () => {});
-    it("expects email validation thrown if email is incorrect format", () => {});
-    it("expects email validation thrown if email already exists", () => {});
-    it("expects password validation thrown if absent", () => {});
   });
 });
