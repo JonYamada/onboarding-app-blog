@@ -1,8 +1,13 @@
-import {ReactNode} from 'react'
+import { ReactNode } from "react";
 
-interface IMainLayoutProps {
-  className?: string
-  children: ReactNode
+interface IAuthLayoutProps {
+  className?: string;
+  children: ReactNode;
 }
 
-export {IMainLayoutProps}
+interface IMainLayoutProps {
+  className?: string;
+  children: ReactNode;
+}
+
+export { IAuthLayoutProps, IMainLayoutProps };
