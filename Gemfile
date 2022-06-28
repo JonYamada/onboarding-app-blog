@@ -55,6 +55,7 @@ group :development do
 end
 
 group :test do
+  gem 'pry'
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'webdrivers'

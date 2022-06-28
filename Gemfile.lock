@@ -281,6 +281,7 @@ DEPENDENCIES
   msgpack
   nokogiri (~> 1.13.4)
   pg
+  pry
   puma (~> 5.0)
   rails (~> 6.0.4.7)
   react_on_rails (= 13.0)
