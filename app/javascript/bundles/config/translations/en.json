@@ -9,6 +9,10 @@
     "label": {
       "content": "Content",
       "title": "Title"
+    },
+    "links": {
+      "alreadyHaveAnAccount": "Already have an account? Log in",
+      "DontHaveAnAccount": "Don't have an account? Sign Up"
     }
   },
   "headings": {

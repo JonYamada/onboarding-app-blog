@@ -1,20 +1,25 @@
-import React, {ChangeEvent, useState} from "react"
-import {buttonText, headings, toast as toastTranslations,} from "../../config/translations/en.json"
-import {getRoutes} from "../../utils/RoutesConnector"
-import {redirectTo} from "../../utils/nav"
-import {login} from "../../api/auth/auth"
-import {toast} from "react-hot-toast"
-import {Form, Formik} from "formik"
-import {setToast} from "../../utils/toast"
-import {ILoginParams, ILoginProps} from "./interfaces"
-import LoadingButton from "@mui/lab/LoadingButton"
-import withLoader from "../../HOCs/withLoader"
-import {IWithLoaderProps} from "../articles/interfaces"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import {Input} from "@mui/material"
-import AuthLayout from "../../layouts/AuthLayout"
-import Typography from "@mui/material/Typography"
+import React, { ChangeEvent, useState } from "react";
+import {
+  buttonText,
+  headings,
+  form,
+  toast as toastTranslations,
+} from "../../config/translations/en.json";
+import { getRoutes } from "../../utils/RoutesConnector";
+import { redirectTo } from "../../utils/nav";
+import { login } from "../../api/auth/auth";
+import { toast } from "react-hot-toast";
+import { Form, Formik } from "formik";
+import { setToast } from "../../utils/toast";
+import { ILoginParams, ILoginProps } from "./interfaces";
+import LoadingButton from "@mui/lab/LoadingButton";
+import withLoader from "../../HOCs/withLoader";
+import { IWithLoaderProps } from "../articles/interfaces";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import { Box, Input, Link } from "@mui/material";
+import AuthLayout from "../../layouts/AuthLayout";
+import Typography from "@mui/material/Typography";
 
 const defaultProps = {
   loading: false,
@@ -113,6 +118,11 @@ const Login = ({ loading, toggleLoading }: ILoginProps & IWithLoaderProps) => {
                 ))}
               </CardContent>
             </Card>
+            <Box sx={{ textAlign: "center", marginY: 1 }}>
+              <Link href={routes.users.new}>
+                {form.links.DontHaveAnAccount}
+              </Link>
+            </Box>
             <LoadingButton
               type="submit"
               loading={loading}

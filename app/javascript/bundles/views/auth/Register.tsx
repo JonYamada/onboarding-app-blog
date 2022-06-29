@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import {
   buttonText,
   headings,
+  form,
   toast as toastTranslations,
 } from "../../config/translations/en.json";
 import { getRoutes } from "../../utils/RoutesConnector";
@@ -16,7 +17,7 @@ import withLoader from "../../HOCs/withLoader";
 import { IWithLoaderProps } from "../articles/interfaces";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Input } from "@mui/material";
+import { Box, Input, Link } from "@mui/material";
 import AuthLayout from "../../layouts/AuthLayout";
 import Typography from "@mui/material/Typography";
 
@@ -186,6 +187,11 @@ const Register = ({
                 ))}
               </CardContent>
             </Card>
+            <Box sx={{ textAlign: "center", marginY: 1 }}>
+              <Link href={routes.sessions.create}>
+                {form.links.alreadyHaveAnAccount}
+              </Link>
+            </Box>
             <LoadingButton
               type="submit"
               loading={loading}
