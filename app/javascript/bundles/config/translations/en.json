@@ -20,6 +20,7 @@
   },
   "toast": {
     "accountCreated": "You account was created. Welcome aboard!",
+    "successLogin": "Successfully logged in. Welcome back!",
     "errorGeneric": "Oops, something went wrong",
     "successSaved": "Saved Successfully"
   },

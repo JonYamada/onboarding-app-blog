@@ -10,7 +10,7 @@ import { register } from "../../api/auth/auth";
 import { toast } from "react-hot-toast";
 import { Form, Formik } from "formik";
 import { setToast } from "../../utils/toast";
-import { IParams, IRegisterProps } from "./interfaces";
+import { IRegisterParams, IRegisterProps } from "./interfaces";
 import LoadingButton from "@mui/lab/LoadingButton";
 import withLoader from "../../HOCs/withLoader";
 import { IWithLoaderProps } from "../articles/interfaces";
@@ -44,7 +44,7 @@ const Register = ({
     password: "",
   };
 
-  const [values, setValues] = useState<IParams>(initialValues);
+  const [values, setValues] = useState<IRegisterParams>(initialValues);
 
   const [errors, setErrors] = useState<IErrors>({
     first_name: { message: "" },

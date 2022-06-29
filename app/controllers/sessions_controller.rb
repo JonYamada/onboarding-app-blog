@@ -1,0 +1,18 @@
+class SessionsController < ApplicationController
+  def create
+    user = User.find_by_email(params[:user][:email])
+
+    if user.present? && user.authenticate(params[:user][:password])
+      session[:current_user_id] = user.id
+      render json: { status: :ok }
+    else
+      render json: { errors: 'Authentication failed.' }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def session_params
+    params.require(:user).permit(:email, :password)
+  end
+end
