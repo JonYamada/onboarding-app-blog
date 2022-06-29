@@ -9,7 +9,7 @@ import { getRoutes } from "../../utils/RoutesConnector";
 import { redirectTo } from "../../utils/nav";
 import { login } from "../../api/auth/auth";
 import { toast } from "react-hot-toast";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import { setToast } from "../../utils/toast";
 import { ILoginParams, ILoginProps } from "./interfaces";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -25,12 +25,6 @@ const defaultProps = {
   loading: false,
   toggleLoading: () => {},
 };
-
-interface IErrors {
-  [name: string]: {
-    message?: string;
-  };
-}
 
 const routes = getRoutes();
 
@@ -66,13 +60,27 @@ const Login = ({ loading, toggleLoading }: ILoginProps & IWithLoaderProps) => {
       });
   };
 
+  const validate = () => {
+    const formikErrors: Record<string, string> = {};
+
+    Object.keys(values).forEach((key) => {
+      if (!values[key]) formikErrors[key] = `${key} can't be blank`;
+    });
+
+    return formikErrors;
+  };
+
   return (
     <AuthLayout>
       <Typography align="center" variant="h2" sx={{ marginBottom: 3 }}>
         {headings.login}
       </Typography>
 
-      <Formik initialValues={initialValues} onSubmit={submit} isInitialValid>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={submit}
+        validate={validate}
+      >
         {() => (
           <Form>
             <Card>
@@ -114,6 +122,11 @@ const Login = ({ loading, toggleLoading }: ILoginProps & IWithLoaderProps) => {
                   <div key={name}>
                     <label htmlFor={name}>{label}</label>
                     <Input {...rest} name={name} id={name} />
+                    <ErrorMessage
+                      className="error-message"
+                      name={name}
+                      component="div"
+                    />
                   </div>
                 ))}
               </CardContent>

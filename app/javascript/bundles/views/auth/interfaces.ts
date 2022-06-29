@@ -9,6 +9,7 @@ interface ILoginProps {
 interface ILoginParams {
   email: string;
   password: string;
+  [key: string]: string;
 }
 
 interface IRegisterParams {
