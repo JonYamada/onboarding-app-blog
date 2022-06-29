@@ -12,6 +12,7 @@
     }
   },
   "headings": {
+    "login": "Login",
     "signUp": "Sign Up"
   },
   "nav": {
