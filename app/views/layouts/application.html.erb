@@ -10,7 +10,7 @@
 <body>
 <%= react_component('Toaster', trace: false) %>
 <%= react_component('UseToast', trace: false) %>
-<%= react_component('RoutesConnector', trace: false) %>
+<%= react_component('RoutesConnector', trace: true) %>
 <%= react_component('AuthConnector', props: { currentUser: current_user }, trace: false) %>
 
 <%= yield %>
