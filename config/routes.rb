@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   root 'articles#index'
+  resources :articles, only: [:index, :new, :create]
+
   get 'register', to: 'users#new'
   post 'register', to: 'users#create'
-  resources :articles, only: [:index, :new, :create]
+
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
 end

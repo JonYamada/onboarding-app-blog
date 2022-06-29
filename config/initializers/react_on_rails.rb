@@ -21,7 +21,10 @@ module RenderingExtension
         users: {
           new: register_path,
           create: register_path,
-        }
+        },
+        sessions: {
+          create: login_path,
+        },
       }
     }
   end
