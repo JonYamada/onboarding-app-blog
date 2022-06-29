@@ -13,8 +13,7 @@ export const AuthConnector = (props: IAuthProps) => {
 };
 
 export const isLoggedIn = () => {
-  //@ts-ignore
-  return Object.keys(localStorage.getItem(CURRENT_USER_KEY)).length > 0;
+  return Object.keys(localStorage.getItem(CURRENT_USER_KEY) || {}).length > 0;
 };
 
 export const getCurrentUser = () => {
