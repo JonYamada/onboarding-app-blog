@@ -1,6 +1,7 @@
 {
   "buttonText": {
     "logout": "Logout",
+    "login": "Login",
     "newArticle": "New Article",
     "save": "Save",
     "submit": "Submit"

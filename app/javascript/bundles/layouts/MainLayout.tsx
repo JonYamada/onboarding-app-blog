@@ -8,6 +8,7 @@ import {
   Avatar,
   Box,
   IconButton,
+  Link,
   Menu,
   MenuItem,
   ThemeProvider,
@@ -19,6 +20,7 @@ import { styled } from "@mui/material/styles";
 import { theme } from "../config/theme/theme";
 import { buttonText } from "../config/translations/en.json";
 import { getCurrentUser, isLoggedIn } from "../utils/AuthConnector";
+import { routes } from "../api/setup";
 
 const defaultProps = {
   className: null,
@@ -42,48 +44,63 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
     zIndex: theme.zIndex.drawer + 1,
   }));
 
+  const AvatarDropdown = () => (
+    <Box>
+      <IconButton
+        aria-controls={open ? AVATAR_MENU : undefined}
+        aria-expanded={open ? "true" : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+        size="small"
+        sx={{ ml: 2 }}
+      >
+        <Avatar alt="user avatar">{getCurrentUser().initials}</Avatar>
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        id={AVATAR_MENU}
+        onClick={handleClose}
+        onClose={handleClose}
+        open={open}
+      >
+        <MenuItem>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          {buttonText.logout}
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
+
+  const LogoutButton = () => (
+    <Link href={routes.sessions.create} sx={{ color: "white" }}>
+      {buttonText.login}
+    </Link>
+  );
+
   const renderTopNavItems = () => {
     const items = [
       ...(isLoggedIn()
         ? [
             {
               key: "profile",
-              content: (
-                <Box sx={{ marginLeft: "auto" }} key="profile">
-                  <IconButton
-                    aria-controls={open ? AVATAR_MENU : undefined}
-                    aria-expanded={open ? "true" : undefined}
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                    size="small"
-                    sx={{ ml: 2 }}
-                  >
-                    <Avatar alt="user avatar">
-                      {getCurrentUser().initials}
-                    </Avatar>
-                  </IconButton>
-                  <Menu
-                    anchorEl={anchorEl}
-                    id={AVATAR_MENU}
-                    onClick={handleClose}
-                    onClose={handleClose}
-                    open={open}
-                  >
-                    <MenuItem>
-                      <ListItemIcon>
-                        <Logout fontSize="small" />
-                      </ListItemIcon>
-                      {buttonText.logout}
-                    </MenuItem>
-                  </Menu>
-                </Box>
-              ),
+              content: <AvatarDropdown />,
             },
           ]
-        : []),
+        : [
+            {
+              key: "login",
+              content: <LogoutButton />,
+            },
+          ]),
     ];
 
-    return items.map(({ content }) => content);
+    return items.map(({ content, key }) => (
+      <Box key={key} sx={{ marginLeft: "auto" }}>
+        {content}
+      </Box>
+    ));
   };
 
   return (
