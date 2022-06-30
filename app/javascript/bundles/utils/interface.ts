@@ -10,6 +10,7 @@ interface IAuthProps {
     last_name: string;
     email: string;
   };
+  currentUserInitials: string;
 }
 
 export { IAuthProps, IToastParams };

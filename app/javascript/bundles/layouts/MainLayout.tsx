@@ -18,7 +18,7 @@ import { IMainLayoutProps } from "./interfaces";
 import { styled } from "@mui/material/styles";
 import { theme } from "../config/theme/theme";
 import { buttonText } from "../config/translations/en.json";
-import { isLoggedIn } from "../utils/AuthConnector";
+import { getCurrentUserInitials, isLoggedIn } from "../utils/AuthConnector";
 
 const defaultProps = {
   className: null,
@@ -58,10 +58,9 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
                     size="small"
                     sx={{ ml: 2 }}
                   >
-                    <Avatar
-                      alt="user avatar"
-                      src="https://picsum.photos/200/300?random=1"
-                    />
+                    <Avatar alt="user avatar">
+                      {getCurrentUserInitials()}
+                    </Avatar>
                   </IconButton>
                   <Menu
                     anchorEl={anchorEl}
