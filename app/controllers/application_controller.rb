@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
   def redirect_if_authenticated
     redirect_to articles_path if current_user
   end
+
+  def redirect_if_unauthenticated(path)
+    redirect_to path if current_user.blank?
+  end
 end
