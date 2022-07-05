@@ -20,5 +20,6 @@ class SessionsController < ApplicationController
 
   def set_session
     session[:current_user_id] = @user.id
+    session[:authentication_created_at] = DateTime.now
   end
 end
