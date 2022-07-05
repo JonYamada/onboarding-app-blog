@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :redirect_if_authenticated, only: :new
+
   def create
     @user = User.find_by_email(params[:user][:email])
 

@@ -3,6 +3,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
+
     if @article.save
       render json: @article, status: 200
     else
