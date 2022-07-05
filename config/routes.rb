@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root 'articles#index'
-  resources :articles, only: [:index, :new, :create]
+  resources :articles, only: %i[index new create]
 
   get 'register', to: 'users#new'
   post 'register', to: 'users#create'

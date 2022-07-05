@@ -6,10 +6,14 @@ class SessionsController < ApplicationController
 
     if @user.present? && @user.authenticate(params[:user][:password])
       set_session
-      render json: { status: :ok }
+      redirect_to articles_path
     else
       render json: { errors: 'Authentication failed.' }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    session[:current_user_id] = nil
   end
 
   private

@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_if_authenticated
-    redirect_to root_path if current_user
+    redirect_to root_path, status: 301 if current_user
   end
 
   def redirect_if_unauthenticated(path)

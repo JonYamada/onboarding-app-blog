@@ -39,12 +39,12 @@ const Login = ({ loading, toggleLoading }: ILoginProps & IWithLoaderProps) => {
   const submit = () => {
     toggleLoading(true);
     login(values)
-      .then(() => {
+      .then(({ request }) => {
         setToast({
           message: toastTranslations.successLogin,
           type: "success",
         });
-        redirectTo(routes.articles.index);
+        redirectTo(request?.responseURL || routes.articles.index);
       })
       .catch(
         ({
