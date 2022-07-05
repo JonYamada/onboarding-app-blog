@@ -45,3 +45,6 @@ onboarding-app-blog/.idea/*
 yarn-debug.log*
 .yarn-integrity
 /coverage
+
+# Ignore application configuration
+/config/application.yml

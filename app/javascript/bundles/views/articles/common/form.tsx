@@ -52,7 +52,7 @@ const ArticleForm = ({
       {
         name: "content",
         isInvalid: !values.content || errors.content?.isEmpty,
-        message: validationTranslations.requiredContent,
+        message: validationTranslations.requireContent,
       },
     ];
 
@@ -132,7 +132,7 @@ const ArticleForm = ({
                     {input}
                     <ErrorMessage
                       className="error-message"
-                      name={name}
+                      name={error.name}
                       component="div"
                     />
                   </Box>

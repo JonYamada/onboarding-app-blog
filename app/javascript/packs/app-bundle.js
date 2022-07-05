@@ -9,18 +9,22 @@ import UseToast from "../bundles/hooks/useToast";
 
 // views
 import ArticleForm from "../bundles/views/articles/common/form";
-import Articles from "../bundles/views/articles/index.tsx";
-import NewArticle from "../bundles/views/articles/new.tsx";
-import SideNav from "../bundles/components/nav/SideNav.tsx";
+import Articles from "../bundles/views/articles/index";
+import NewArticle from "../bundles/views/articles/new";
+import Register from "../bundles/views/auth/Register";
+import SideNav from "../bundles/components/nav/SideNav";
 
-import { RoutesConnector } from "../bundles/utils/routes";
+import { RoutesConnector } from "../bundles/utils/RoutesConnector";
+import { AuthConnector } from "../bundles/utils/AuthConnector";
 
 ReactOnRails.register({
   ArticleForm,
   Articles,
-  RoutesConnector,
+  AuthConnector,
   ListItemPreview,
   NewArticle,
+  Register,
+  RoutesConnector,
   SideNav,
   Toaster,
   UseToast,
