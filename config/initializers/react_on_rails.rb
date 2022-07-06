@@ -23,7 +23,9 @@ module RenderingExtension
           create: register_path,
         },
         sessions: {
+          new: login_path,
           create: login_path,
+          destroy: logout_path,
         },
       }
     }
