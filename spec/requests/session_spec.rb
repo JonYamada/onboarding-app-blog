@@ -7,11 +7,14 @@ RSpec.describe 'Session', type: :request do
 
   describe 'Authorization' do
     it 'redirects to the login screen on protected routes when the user is not authenticated' do
-      protected_paths = [new_article_path]
+      protected_paths = [
+        { method: -> { get(new_article_path) } },
+        { method: -> { post(articles_path) } }
+      ]
 
-      protected_paths.each do |path|
-        get path
-        expect(response.location).to eq("http://#{host}#{articles_path}")
+      protected_paths.each do |protected_path|
+        protected_path[:method].call
+        expect(response.location).to eq("http://#{host}#{login_path}")
         expect(response).to have_http_status(302)
       end
     end
