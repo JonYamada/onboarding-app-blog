@@ -188,7 +188,7 @@ const Register = ({
               </CardContent>
             </Card>
             <Box sx={{ textAlign: "center", marginY: 1 }}>
-              <Link href={routes.sessions.create}>
+              <Link href={routes?.sessions?.create}>
                 {form.links.alreadyHaveAnAccount}
               </Link>
             </Box>
