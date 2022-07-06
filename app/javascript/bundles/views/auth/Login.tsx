@@ -132,7 +132,7 @@ const Login = ({ loading, toggleLoading }: ILoginProps & IWithLoaderProps) => {
               </CardContent>
             </Card>
             <Box sx={{ textAlign: "center", marginY: 1 }}>
-              <Link href={routes.users.new}>
+              <Link href={routes?.users?.new}>
                 {form.links.DontHaveAnAccount}
               </Link>
             </Box>
