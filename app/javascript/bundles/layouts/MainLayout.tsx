@@ -54,7 +54,7 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
         size="small"
         sx={{ ml: 2 }}
       >
-        <Avatar alt="user avatar">{getCurrentUser().initials}</Avatar>
+        <Avatar alt="user avatar">{getCurrentUser()?.initials}</Avatar>
       </IconButton>
       <Menu
         anchorEl={anchorEl}
