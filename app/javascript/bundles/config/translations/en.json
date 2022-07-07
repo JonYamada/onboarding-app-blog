@@ -13,7 +13,7 @@
     },
     "links": {
       "alreadyHaveAnAccount": "Already have an account? Log in",
-      "DontHaveAnAccount": "Don't have an account? Sign Up"
+      "dontHaveAnAccount": "Don't have an account? Sign Up"
     }
   },
   "headings": {
