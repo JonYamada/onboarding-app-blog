@@ -73,7 +73,7 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
     </Box>
   );
 
-  const LogoutButton = () => (
+  const LoginButton = () => (
     <Link href={routes?.sessions?.create} sx={{ color: "white" }}>
       {buttonText.login}
     </Link>
@@ -91,7 +91,7 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
         : [
             {
               key: "login",
-              content: <LogoutButton />,
+              content: <LoginButton />,
             },
           ]),
     ];
