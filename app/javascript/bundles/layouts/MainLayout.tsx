@@ -30,10 +30,10 @@ const AVATAR_MENU = "avatar-menu";
 const drawerWidth = 200;
 
 const MainLayout = ({
-  isAuthenticated = isLoggedIn(),
-  initials = getCurrentUser()?.initials,
   children,
   className,
+  initials = getCurrentUser()?.initials,
+  isAuthenticated = isLoggedIn(),
 }: IMainLayoutProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = !!anchorEl;
