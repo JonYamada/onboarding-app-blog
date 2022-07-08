@@ -6,8 +6,10 @@ interface IAuthLayoutProps {
 }
 
 interface IMainLayoutProps {
-  className?: string;
   children: ReactNode;
+  className?: string;
+  initials?: string;
+  isAuthenticated?: boolean;
 }
 
 export { IAuthLayoutProps, IMainLayoutProps };

@@ -1,18 +1,34 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import MainLayout from "../MainLayout";
+import { buttonText } from "../../config/translations/en.json";
+
+const initials = "JY";
+const loginText = buttonText.login;
 
 describe("MainLayout Component", () => {
-  let x: HTMLElement;
+  describe("Login and user initials / avatar buttons", () => {
+    it("displays user initials when authenticated", async () => {
+      render(
+        <MainLayout children={<div />} initials={initials} isAuthenticated />
+      );
 
-  beforeEach(() => {
-    render(<MainLayout children={<div />} />);
-  });
+      expect(await screen.queryByText(loginText)).not.toBeInTheDocument();
+      expect(await screen.findByText(initials)).toBeInTheDocument();
+    });
 
-  describe("Login Icon", () => {
-    it("displays user initials when authenticated", () => {});
+    it("displays login link when unauthenticated", async () => {
+      render(
+        <MainLayout
+          children={<div />}
+          initials={initials}
+          isAuthenticated={false}
+        />
+      );
 
-    it("displays login link when unauthenticated", () => {});
+      expect(await screen.queryByText(initials)).not.toBeInTheDocument();
+      expect(await screen.findByText(loginText)).toBeInTheDocument();
+    });
   });
 });

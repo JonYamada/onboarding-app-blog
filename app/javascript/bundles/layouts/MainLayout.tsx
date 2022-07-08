@@ -29,7 +29,12 @@ const defaultProps = {
 const AVATAR_MENU = "avatar-menu";
 const drawerWidth = 200;
 
-const MainLayout = ({ className, children }: IMainLayoutProps) => {
+const MainLayout = ({
+  isAuthenticated = isLoggedIn(),
+  initials = getCurrentUser()?.initials,
+  children,
+  className,
+}: IMainLayoutProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = !!anchorEl;
 
@@ -54,7 +59,7 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
         size="small"
         sx={{ ml: 2 }}
       >
-        <Avatar alt="user avatar">{getCurrentUser()?.initials}</Avatar>
+        <Avatar alt="user avatar">{initials}</Avatar>
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -81,7 +86,7 @@ const MainLayout = ({ className, children }: IMainLayoutProps) => {
 
   const renderTopNavItems = () => {
     const items = [
-      ...(isLoggedIn()
+      ...(isAuthenticated
         ? [
             {
               key: "profile",
