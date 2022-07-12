@@ -4,7 +4,7 @@ import { client, routes } from "../setup";
 export const register = (params: IRegisterParams) => {
   return new Promise((resolve, reject) => {
     client
-      .post(routes.users.create, { user: params })
+      .post(routes?.users?.create, { user: params })
       .then(resolve)
       .catch(reject);
   });
