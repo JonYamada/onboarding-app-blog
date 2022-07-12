@@ -1,13 +1,13 @@
-import React from "react"
-import "@testing-library/jest-dom"
-import {fireEvent, render, screen, waitFor} from "@testing-library/react"
-import mockAxios from "jest-mock-axios"
-import Login from "../Login"
-import {act} from "react-test-renderer"
-import {getRoutes} from "../../../utils/RoutesConnector"
-import {Toaster} from "react-hot-toast"
-import {setToast} from "../../../utils/toast"
-import {redirectTo} from "../../../utils/nav"
+import React from "react";
+import "@testing-library/jest-dom";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import mockAxios from "jest-mock-axios";
+import Login from "../Login";
+import { act } from "react-test-renderer";
+import { getRoutes } from "../../../utils/RoutesConnector";
+import { Toaster } from "react-hot-toast";
+import { setToast } from "../../../utils/toast";
+import { redirectTo } from "../../../utils/nav";
 
 // react-hot-toast throws error without this
 global.window.matchMedia = (query) => ({
