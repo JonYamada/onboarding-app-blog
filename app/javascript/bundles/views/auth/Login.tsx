@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
 import {
   buttonText,
-  headings,
   form,
+  headings,
   toast as toastTranslations,
 } from "../../config/translations/en.json";
 import { getRoutes } from "../../utils/RoutesConnector";

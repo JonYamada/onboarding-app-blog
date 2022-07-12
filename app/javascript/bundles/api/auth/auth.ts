@@ -13,7 +13,7 @@ export const register = (params: IRegisterParams) => {
 export const login = (params: ILoginParams) => {
   return new Promise((resolve, reject) => {
     client
-      .post(routes.sessions.create, { user: params })
+      .post(routes?.sessions?.create, { user: params })
       .then(resolve)
       .catch(reject);
   });
