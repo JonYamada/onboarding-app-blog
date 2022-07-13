@@ -118,8 +118,28 @@ describe("Login Form Component", () => {
   describe("fields", () => {
     it("expects only 2 fields", () => {
       const textFields = screen.getAllByRole("textbox");
-      const passwordField = screen.getAllByLabelText("password");
-      const fields = [...textFields, ...passwordField];
+      const passwordFields = screen.getAllByLabelText("password");
+
+      const checkboxFields = screen.queryAllByRole("checkbox");
+      const comboBoxFields = screen.queryAllByRole("combobox");
+      const optionFields = screen.queryAllByRole("option");
+      const radioFields = screen.queryAllByRole("radio");
+      const searchBoxFields = screen.queryAllByRole("searchbox");
+      const sliderFields = screen.queryAllByRole("slider");
+      const spinButtonFields = screen.queryAllByRole("spinbutton");
+
+      const otherFields = [
+        ...checkboxFields,
+        ...comboBoxFields,
+        ...optionFields,
+        ...radioFields,
+        ...searchBoxFields,
+        ...sliderFields,
+        ...spinButtonFields,
+      ];
+
+      const fields = [...textFields, ...passwordFields, ...otherFields];
+
       expect(fields).toHaveLength(2);
       fields.forEach((field) => expect(field).toBeInTheDocument());
     });
