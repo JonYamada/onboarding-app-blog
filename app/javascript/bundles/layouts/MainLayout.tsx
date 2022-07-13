@@ -21,6 +21,8 @@ import { theme } from "../config/theme/theme";
 import { buttonText } from "../config/translations/en.json";
 import { getCurrentUser, isLoggedIn } from "../utils/AuthConnector";
 import { routes } from "../api/setup";
+import { redirectTo } from "../utils/nav";
+import { logout } from "../api/auth/auth";
 
 const defaultProps = {
   className: null,
@@ -68,7 +70,11 @@ const MainLayout = ({
         onClose={handleClose}
         open={open}
       >
-        <MenuItem>
+        <MenuItem
+          onClick={() =>
+            logout().then(() => redirectTo(routes?.articles?.index || "/"))
+          }
+        >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
