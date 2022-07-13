@@ -62,36 +62,28 @@ const Register = ({
           message: toastTranslations.accountCreated,
           type: "success",
         });
-        redirectTo(routes.articles.index);
+        redirectTo(routes?.articles?.index);
       })
-      .catch(
-        ({
-          response: {
-            data: { errors: resErrors },
-          },
-        }) => {
-          if (resErrors) {
-            let newErrors = {};
-            Object.keys(resErrors).forEach((key) => {
-              newErrors = {
-                ...newErrors,
-                ...{
-                  [key]: {
-                    message: resErrors[key]?.join(". "),
-                  },
+      .catch(({ response, ...rest }) => {
+        if (response?.data?.errors || !!rest.errors) {
+          const allErrors = response?.data?.errors || rest.errors;
+          let newErrors = {};
+          Object.keys(allErrors).forEach((key) => {
+            newErrors = {
+              ...newErrors,
+              ...{
+                [key]: {
+                  message: allErrors[key]?.join(". "),
                 },
-              };
-            });
-
-            setErrors(newErrors);
-          } else {
-            toast.error(toastTranslations.errorGeneric);
-          }
+              },
+            };
+          });
+          setErrors(newErrors);
+        } else {
+          toast.error(toastTranslations.errorGeneric);
         }
-      )
-      .finally(() => {
-        toggleLoading(false);
-      });
+      })
+      .finally(() => toggleLoading(false));
   };
 
   return (
