@@ -1,10 +1,10 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Register from "../Register";
 import mockAxios from "jest-mock-axios";
-import {getRoutes} from "../../../utils/RoutesConnector";
-import {act} from "react-test-renderer";
+import { getRoutes } from "../../../utils/RoutesConnector";
+import { act } from "react-test-renderer";
 
 jest.mock("../../../utils/RoutesConnector", () => {
   return {
@@ -32,12 +32,12 @@ describe("Register Form Component", () => {
   }
 
   beforeEach(() => {
-    render(<Register/>);
+    render(<Register />);
     firstNameInput = screen.getByLabelText("first name");
     lastNameInput = screen.getByLabelText("last name");
     emailInput = screen.getByLabelText("email");
     passwordInput = screen.getByLabelText("password");
-    btnSubmit = screen.getByRole("button", {name: /Submit/i});
+    btnSubmit = screen.getByRole("button", { name: /Submit/i });
   });
 
   afterEach(() => {
@@ -45,16 +45,16 @@ describe("Register Form Component", () => {
   });
 
   const populateFirstNameInput = (value: string = "Joe") =>
-    fireEvent.input(firstNameInput, {target: {value}});
+    fireEvent.input(firstNameInput, { target: { value } });
 
   const populateLastNameInput = (value: string = "Bloggs") =>
-    fireEvent.input(lastNameInput, {target: {value}});
+    fireEvent.input(lastNameInput, { target: { value } });
 
   const populateEmailInput = (value: string = "joe@bloggs.ie") =>
-    fireEvent.input(emailInput, {target: {value}});
+    fireEvent.input(emailInput, { target: { value } });
 
   const populatePasswordInput = (value: string = "password") =>
-    fireEvent.input(passwordInput, {target: {value}});
+    fireEvent.input(passwordInput, { target: { value } });
 
   const clickSubmit = () => {
     act(() => {
@@ -80,8 +80,8 @@ describe("Register Form Component", () => {
   });
 
   describe("validations", () => {
-    const requiredValidationMessage = "can't be blank";
     const testNotBlank = async (field: string) => {
+      const requiredValidationMessage = "can't be blank";
       await expectFormReset();
       const firstNameValue = field === FIELDS.FIRST_NAME ? "" : "Joe";
       const lastNameValue = field === FIELDS.LAST_NAME ? "" : "Bloggs";
@@ -97,7 +97,7 @@ describe("Register Form Component", () => {
 
       await waitFor(() => {
         mockAxios.mockError({
-          errors: {[field]: [requiredValidationMessage]},
+          errors: { [field]: [requiredValidationMessage] },
         });
       });
 
@@ -113,6 +113,34 @@ describe("Register Form Component", () => {
       expect(
         await screen.findByText(requiredValidationMessage)
       ).toBeInTheDocument();
+    };
+
+    const testEmailValidation = async (message: string) => {
+      await expectFormReset();
+
+      populateFirstNameInput();
+      populateLastNameInput();
+      populateEmailInput("invalid email");
+      populatePasswordInput();
+
+      clickSubmit();
+
+      await waitFor(() => {
+        mockAxios.mockError({
+          errors: { email: [message] },
+        });
+      });
+
+      expect(mockAxios.post).toHaveBeenCalledWith(getRoutes()?.users?.create, {
+        user: {
+          first_name: "Joe",
+          last_name: "Bloggs",
+          email: "invalid email",
+          password: "password",
+        },
+      });
+
+      expect(await screen.findByText(message)).toBeInTheDocument();
     };
 
     it("throws error message if first name blank", async () => {
@@ -131,7 +159,12 @@ describe("Register Form Component", () => {
       await testNotBlank(FIELDS.PASSWORD);
     });
 
-    it("throws error message if email format is incorrect", async () => {});
-    it("throws error message if email format is already taken", async () => {});
+    it("throws error message if email format is incorrect", async () => {
+      await testEmailValidation("ensure you enter a valid email");
+    });
+
+    it("throws error message if email format is already taken", async () => {
+      await testEmailValidation("has already been taken.");
+    });
   });
 });
