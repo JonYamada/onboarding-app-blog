@@ -102,10 +102,6 @@ describe("Login Form Component", () => {
     expect(passwordInput).toHaveValue("");
   };
 
-  afterEach(() => {
-    mockAxios.reset();
-  });
-
   beforeEach(() => {
     render(<Login />);
     render(<Toaster />);
@@ -113,6 +109,10 @@ describe("Login Form Component", () => {
     emailInput = screen.getByLabelText("email");
     passwordInput = screen.getByLabelText("password");
     btnSubmit = screen.getByRole("button", { name: /Submit/i });
+  });
+
+  afterEach(() => {
+    mockAxios.reset();
   });
 
   describe("fields", () => {
