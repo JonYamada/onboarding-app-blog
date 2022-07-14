@@ -56,12 +56,8 @@ RSpec.describe SessionsController, type: :controller do
       create_session({ email: @user.email, password: ENV['seeds_user_password'] })
       expect(session[:current_user_id]).not_to be_nil
 
-      delete logout_path
+      delete :destroy
       expect(session[:current_user_id]).to be_nil
-    end
-
-    it 'redirects to main page on session destroy' do
-
     end
   end
 end
