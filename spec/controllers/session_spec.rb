@@ -10,15 +10,15 @@ RSpec.describe SessionsController, type: :controller do
     User.destroy_all unless User.count.zero?
   end
 
+  def create_user
+    User.create({ first_name: 'Joe', last_name: 'Bloggs', email: @email, password: @password })
+  end
+
+  def create_session(params)
+    post :create, params: { user: params }
+  end
+
   describe 'POST /login - Authentication' do
-    def create_user
-      User.create({ first_name: 'Joe', last_name: 'Bloggs', email: @email, password: @password })
-    end
-
-    def create_session(params)
-      post :create, params: { user: params }
-    end
-
     it 'successfully authenticates the user' do
       create_user
       expect(session[:current_user_id]).to be_nil
@@ -44,10 +44,24 @@ RSpec.describe SessionsController, type: :controller do
         create_session(params)
         expect(session[:current_user_id]).to be nil
 
-        expect(JSON.parse(response.body)).to eq({"errors"=>"Authentication failed."})
+        expect(JSON.parse(response.body)).to eq({ "errors" => "Authentication failed." })
         expect(response).to have_http_status(422)
         expect(session[:current_user_id]).to be nil
       end
+    end
+  end
+
+  describe 'DELETE /logout' do
+    it 'successfully destroys the session' do
+      create_session({ email: @user.email, password: ENV['seeds_user_password'] })
+      expect(session[:current_user_id]).not_to be_nil
+
+      delete logout_path
+      expect(session[:current_user_id]).to be_nil
+    end
+
+    it 'redirects to main page on session destroy' do
+
     end
   end
 end
