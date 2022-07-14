@@ -1,19 +1,24 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import MainLayout from "../MainLayout";
-import { act } from "react-test-renderer";
+import {act} from "react-test-renderer";
 import mockAxios from "jest-mock-axios";
-import { getRoutes } from "../../utils/RoutesConnector";
+import {getRoutes} from "../../utils/RoutesConnector";
+import {redirectTo} from "../../utils/nav";
 
 const initials = "JY";
 const loginText = "Login";
 const logoutText = "Logout";
+const mainPageUrl = '/articles'
 
 jest.mock("../../utils/RoutesConnector", () => {
   return {
     __esModule: true,
     getRoutes: jest.fn(() => ({
+      articles: {
+        index: "/articles",
+      },
       sessions: {
         create: "/login",
         destroy: "/logout",
@@ -22,26 +27,33 @@ jest.mock("../../utils/RoutesConnector", () => {
   };
 });
 
+jest.mock("../../utils/nav", () => {
+  return {
+    __esModule: true,
+    redirectTo: jest.fn(),
+  };
+});
+
 describe("MainLayout", () => {
   describe("Login and avatar buttons", () => {
     const findLoginLink = async () =>
-      await screen.findByRole("link", { name: loginText });
+      await screen.findByRole("link", {name: loginText});
     const queryLoginLink = async () =>
-      await screen.queryByRole("link", { name: loginText });
+      await screen.queryByRole("link", {name: loginText});
     const getLoginLink = async () =>
-      await screen.getByRole("link", { name: loginText });
+      await screen.getByRole("link", {name: loginText});
 
     const getBtnInitials = async () =>
-      await screen.getByRole("button", { name: initials });
+      await screen.getByRole("button", {name: initials});
     const queryBtnInitials = async () =>
-      await screen.queryByRole("button", { name: initials });
+      await screen.queryByRole("button", {name: initials});
 
-    const getBtnLogout = async () =>
-      await screen.getByRole("menuitem", { name: logoutText });
+    const getMenuItemLogout = async () =>
+      await screen.getByRole("menuitem", {name: logoutText});
 
     it("displays user initials when authenticated", async () => {
       render(
-        <MainLayout children={<div />} initials={initials} isAuthenticated />
+        <MainLayout children={<div/>} initials={initials} isAuthenticated/>
       );
 
       expect(await getBtnInitials()).toBeInTheDocument();
@@ -51,7 +63,7 @@ describe("MainLayout", () => {
     it("displays login link when unauthenticated", async () => {
       render(
         <MainLayout
-          children={<div />}
+          children={<div/>}
           initials={initials}
           isAuthenticated={false}
         />
@@ -63,7 +75,7 @@ describe("MainLayout", () => {
 
     it("user avatar disappears when logout clicked", async () => {
       render(
-        <MainLayout children={<div />} initials={initials} isAuthenticated />
+        <MainLayout children={<div/>} initials={initials} isAuthenticated/>
       );
 
       const btnAvatar = await getBtnInitials();
@@ -72,20 +84,26 @@ describe("MainLayout", () => {
         fireEvent.click(btnAvatar);
       });
 
-      const btnLogout = await getBtnLogout();
-      expect(btnLogout).toBeInTheDocument();
+      const menuItemLogout = await getMenuItemLogout();
+      expect(menuItemLogout).toBeInTheDocument();
 
       act(() => {
-        fireEvent.click(btnLogout);
+        fireEvent.click(menuItemLogout);
+      });
+
+      await waitFor(() => {
+        mockAxios.mockResponse();
       });
 
       expect(mockAxios.delete).toHaveBeenCalledWith(
         getRoutes()?.sessions?.destroy
       );
 
+      expect(redirectTo).toHaveBeenCalledWith(mainPageUrl);
+
       render(
         <MainLayout
-          children={<div />}
+          children={<div/>}
           initials={initials}
           isAuthenticated={false}
         />
