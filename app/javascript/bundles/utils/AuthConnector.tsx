@@ -5,13 +5,7 @@ const CURRENT_USER_KEY = "currentUser";
 
 export const AuthConnector = (props: IAuthProps) => {
   if (!!props.currentUser) {
-    localStorage.setItem(
-      CURRENT_USER_KEY,
-      JSON.stringify({
-        ...props.currentUser,
-        initials: props.currentUserInitials || "",
-      })
-    );
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(props?.currentUser));
   } else {
     localStorage.setItem(CURRENT_USER_KEY, "");
   }

@@ -1,16 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :reset_session, if: :session_timed_out?
 
-  helper_method :current_user
-  helper_method :current_user_initials
+  helper_method :serialized_current_user
 
-  def current_user
-    User.find(session[:current_user_id]) if session[:current_user_id]
+  def serialized_current_user
+    current_user.serializable_hash
   end
 
-  def current_user_initials
-    "#{current_user.first_name[0].upcase}#{current_user.last_name[0].upcase}" if current_user.present?
-  end
 
   def redirect_if_authenticated
     redirect_to root_path, status: :moved_permanently if current_user
@@ -22,6 +18,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def current_user
+    User.find(session[:current_user_id]) if session[:current_user_id]
+  end
+  
   def session_timed_out?
     if session[:authentication_created_at].present?
       now = Time.now.strftime('%s').to_i
