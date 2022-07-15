@@ -15,7 +15,7 @@ RSpec.describe 'Session', type: :request do
       protected_paths.each do |protected_path|
         protected_path[:method].call
         expect(response.location).to eq("http://#{host}#{login_path}")
-        expect(response).to have_http_status(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
