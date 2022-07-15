@@ -53,4 +53,16 @@ RSpec.describe User, type: :model do
 
     end
   end
+
+  describe 'Serialization' do
+    it 'should have correct fields' do
+      expected_hash = {
+        'first_name' => 'jon',
+        'last_name' => 'yams',
+        'email' => 'jonathon.yamada@wpengine.com',
+        'initials' => 'JY'
+      }
+      expect(@user.serializable_hash).to eq(expected_hash)
+    end
+  end
 end
