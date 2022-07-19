@@ -18,3 +18,9 @@ export const login = (params: ILoginParams) => {
       .catch(reject);
   });
 };
+
+export const logout = () => {
+  return new Promise((resolve, reject) => {
+    client.delete(routes?.sessions?.destroy).then(resolve).catch(reject);
+  });
+};

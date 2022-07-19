@@ -1,34 +1,116 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import MainLayout from "../MainLayout";
-import { buttonText } from "../../config/translations/en.json";
+import {act} from "react-test-renderer";
+import mockAxios from "jest-mock-axios";
+import {getRoutes} from "../../utils/RoutesConnector";
+import {redirectTo} from "../../utils/nav";
 
 const initials = "JY";
-const loginText = buttonText.login;
+const loginText = "Login";
+const logoutText = "Logout";
+const mainPageUrl = '/articles'
 
-describe("MainLayout Component", () => {
-  describe("Login and user initials / avatar buttons", () => {
+jest.mock("../../utils/RoutesConnector", () => {
+  return {
+    __esModule: true,
+    getRoutes: jest.fn(() => ({
+      articles: {
+        index: "/articles",
+      },
+      sessions: {
+        create: "/login",
+        destroy: "/logout",
+      },
+    })),
+  };
+});
+
+jest.mock("../../utils/nav", () => {
+  return {
+    __esModule: true,
+    redirectTo: jest.fn(),
+  };
+});
+
+describe("MainLayout", () => {
+  describe("Login and avatar buttons", () => {
+    const findLoginLink = async () =>
+      await screen.findByRole("link", {name: loginText});
+    const queryLoginLink = async () =>
+      await screen.queryByRole("link", {name: loginText});
+    const getLoginLink = async () =>
+      await screen.getByRole("link", {name: loginText});
+
+    const getBtnInitials = async () =>
+      await screen.getByRole("button", {name: initials});
+    const queryBtnInitials = async () =>
+      await screen.queryByRole("button", {name: initials});
+
+    const getMenuItemLogout = async () =>
+      await screen.getByRole("menuitem", {name: logoutText});
+
     it("displays user initials when authenticated", async () => {
       render(
-        <MainLayout children={<div />} initials={initials} isAuthenticated />
+        <MainLayout children={<div/>} initials={initials} isAuthenticated/>
       );
 
-      expect(await screen.queryByText(loginText)).not.toBeInTheDocument();
-      expect(await screen.findByText(initials)).toBeInTheDocument();
+      expect(await getBtnInitials()).toBeInTheDocument();
+      expect(await queryLoginLink()).not.toBeInTheDocument();
     });
 
     it("displays login link when unauthenticated", async () => {
       render(
         <MainLayout
-          children={<div />}
+          children={<div/>}
           initials={initials}
           isAuthenticated={false}
         />
       );
 
-      expect(await screen.queryByText(initials)).not.toBeInTheDocument();
-      expect(await screen.findByText(loginText)).toBeInTheDocument();
+      expect(await queryBtnInitials()).not.toBeInTheDocument();
+      expect(await getLoginLink()).toBeInTheDocument();
+    });
+
+    it("user avatar disappears when logout clicked", async () => {
+      render(
+        <MainLayout children={<div/>} initials={initials} isAuthenticated/>
+      );
+
+      const btnAvatar = await getBtnInitials();
+      expect(btnAvatar).toBeInTheDocument();
+      act(() => {
+        fireEvent.click(btnAvatar);
+      });
+
+      const menuItemLogout = await getMenuItemLogout();
+      expect(menuItemLogout).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.click(menuItemLogout);
+      });
+
+      await waitFor(() => {
+        mockAxios.mockResponse();
+      });
+
+      expect(mockAxios.delete).toHaveBeenCalledWith(
+        getRoutes()?.sessions?.destroy
+      );
+
+      expect(redirectTo).toHaveBeenCalledWith(mainPageUrl);
+
+      render(
+        <MainLayout
+          children={<div/>}
+          initials={initials}
+          isAuthenticated={false}
+        />
+      );
+
+      expect(btnAvatar).not.toBeInTheDocument();
+      expect(await findLoginLink()).toBeInTheDocument();
     });
   });
 });

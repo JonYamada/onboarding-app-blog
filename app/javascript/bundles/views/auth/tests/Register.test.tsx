@@ -155,7 +155,7 @@ describe("Register Form Component", () => {
       await testNotBlank(FIELDS.EMAIL);
     });
 
-    it("throws error message if password name blank", async () => {
+    it("throws error message if password blank", async () => {
       await testNotBlank(FIELDS.PASSWORD);
     });
 

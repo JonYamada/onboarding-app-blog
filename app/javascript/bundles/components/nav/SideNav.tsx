@@ -78,7 +78,7 @@ const SideNav = ({ children, width }: ISideNavProps) => {
               url && (
                 <ListItem key={name} disablePadding>
                   <ListItemButton onClick={() => redirectTo(url)}>
-                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemIcon sx={{ minWidth: 30 }}>{icon}</ListItemIcon>
                     <ListItemText primary={name} sx={{ opacity: 1 }} />
                   </ListItemButton>
                 </ListItem>
