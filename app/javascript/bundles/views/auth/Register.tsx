@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import {
   buttonText,
   headings,
+  form,
   toast as toastTranslations,
 } from "../../config/translations/en.json";
 import { getRoutes } from "../../utils/RoutesConnector";
@@ -10,13 +11,13 @@ import { register } from "../../api/auth/auth";
 import { toast } from "react-hot-toast";
 import { Form, Formik } from "formik";
 import { setToast } from "../../utils/toast";
-import { IParams, IRegisterProps } from "./interfaces";
+import { IRegisterParams, IRegisterProps } from "./interfaces";
 import LoadingButton from "@mui/lab/LoadingButton";
 import withLoader from "../../HOCs/withLoader";
 import { IWithLoaderProps } from "../articles/interfaces";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Input } from "@mui/material";
+import { Box, Input, Link } from "@mui/material";
 import AuthLayout from "../../layouts/AuthLayout";
 import Typography from "@mui/material/Typography";
 
@@ -44,7 +45,7 @@ const Register = ({
     password: "",
   };
 
-  const [values, setValues] = useState<IParams>(initialValues);
+  const [values, setValues] = useState<IRegisterParams>(initialValues);
 
   const [errors, setErrors] = useState<IErrors>({
     first_name: { message: "" },
@@ -61,36 +62,28 @@ const Register = ({
           message: toastTranslations.accountCreated,
           type: "success",
         });
-        redirectTo(routes.articles.index);
+        redirectTo(routes?.articles?.index);
       })
-      .catch(
-        ({
-          response: {
-            data: { errors: resErrors },
-          },
-        }) => {
-          if (resErrors) {
-            let newErrors = {};
-            Object.keys(resErrors).forEach((key) => {
-              newErrors = {
-                ...newErrors,
-                ...{
-                  [key]: {
-                    message: resErrors[key]?.join(". "),
-                  },
+      .catch(({ response, ...rest }) => {
+        if (response?.data?.errors || !!rest.errors) {
+          const allErrors = response?.data?.errors || rest.errors;
+          let newErrors = {};
+          Object.keys(allErrors).forEach((key) => {
+            newErrors = {
+              ...newErrors,
+              ...{
+                [key]: {
+                  message: allErrors[key]?.join(". "),
                 },
-              };
-            });
-
-            setErrors(newErrors);
-          } else {
-            toast.error(toastTranslations.errorGeneric);
-          }
+              },
+            };
+          });
+          setErrors(newErrors);
+        } else {
+          toast.error(toastTranslations.errorGeneric);
         }
-      )
-      .finally(() => {
-        toggleLoading(false);
-      });
+      })
+      .finally(() => toggleLoading(false));
   };
 
   return (
@@ -186,6 +179,11 @@ const Register = ({
                 ))}
               </CardContent>
             </Card>
+            <Box sx={{ textAlign: "center", marginY: 1 }}>
+              <Link href={routes?.sessions?.create}>
+                {form.links.alreadyHaveAnAccount}
+              </Link>
+            </Box>
             <LoadingButton
               type="submit"
               loading={loading}

@@ -1,6 +1,7 @@
 {
   "buttonText": {
     "logout": "Logout",
+    "login": "Login",
     "newArticle": "New Article",
     "save": "Save",
     "submit": "Submit"
@@ -9,9 +10,14 @@
     "label": {
       "content": "Content",
       "title": "Title"
+    },
+    "links": {
+      "alreadyHaveAnAccount": "Already have an account? Log in",
+      "dontHaveAnAccount": "Don't have an account? Sign Up"
     }
   },
   "headings": {
+    "login": "Login",
     "signUp": "Sign Up"
   },
   "nav": {
@@ -19,6 +25,7 @@
   },
   "toast": {
     "accountCreated": "You account was created. Welcome aboard!",
+    "successLogin": "Successfully logged in. Welcome back!",
     "errorGeneric": "Oops, something went wrong",
     "successSaved": "Saved Successfully"
   },

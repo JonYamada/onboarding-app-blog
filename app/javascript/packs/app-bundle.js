@@ -11,6 +11,7 @@ import UseToast from "../bundles/hooks/useToast";
 import ArticleForm from "../bundles/views/articles/common/form";
 import Articles from "../bundles/views/articles/index";
 import NewArticle from "../bundles/views/articles/new";
+import Login from "../bundles/views/auth/Login";
 import Register from "../bundles/views/auth/Register";
 import SideNav from "../bundles/components/nav/SideNav";
 
@@ -22,6 +23,7 @@ ReactOnRails.register({
   Articles,
   AuthConnector,
   ListItemPreview,
+  Login,
   NewArticle,
   Register,
   RoutesConnector,

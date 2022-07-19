@@ -8,10 +8,10 @@
 </head>
 
 <body>
+<%= react_component('AuthConnector', props: { currentUser: serialized_current_user }, trace: false) %>
+<%= react_component('RoutesConnector', trace: true) %>
 <%= react_component('Toaster', trace: false) %>
 <%= react_component('UseToast', trace: false) %>
-<%= react_component('RoutesConnector', trace: false) %>
-<%= react_component('AuthConnector', props: { currentUser: current_user }, trace: false) %>
 
 <%= yield %>
 </body>

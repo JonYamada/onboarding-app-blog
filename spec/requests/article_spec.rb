@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Articles", type: :request do
+  before(:context) do
+    post login_path, params: { user: { email: @user.email, password: ENV['seeds_user_password'] } }
+  end
+
   after(:context) do
     Article.destroy_all unless Article.count.zero?
   end
@@ -10,7 +14,7 @@ RSpec.describe "Articles", type: :request do
       initial_article_count = Article.count
 
       post articles_path, params: { article: { title: 'Test Title', content: 'Test Content', user_id: @user.id } }
-      
+
       expect(response).to have_http_status(200)
       expect(Article.count).eql?(initial_article_count + 1)
     end

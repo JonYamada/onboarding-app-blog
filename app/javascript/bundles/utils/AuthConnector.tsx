@@ -1,7 +1,7 @@
 import React from "react";
 import { IAuthProps } from "./interface";
 
-const CURRENT_USER_KEY = "current-user";
+const CURRENT_USER_KEY = "currentUser";
 
 export const AuthConnector = (props: IAuthProps) => {
   if (!!props.currentUser) {

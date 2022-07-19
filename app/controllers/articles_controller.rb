@@ -1,8 +1,13 @@
 class ArticlesController < ApplicationController
+  before_action only: %i[new create] do
+    redirect_if_unauthenticated(login_path)
+  end
+
   def index; end
 
   def create
     @article = Article.new(article_params)
+
     if @article.save
       render json: @article, status: 200
     else
